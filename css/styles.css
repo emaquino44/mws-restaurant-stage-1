@@ -116,10 +116,6 @@ nav h1 a {
   text-transform: uppercase;
 }
 
-nav h1 a::before {
-  content: "⛾";
-}
-
 #breadcrumb {
     padding: 10px 40px 16px;
     list-style: none;
@@ -165,31 +161,50 @@ nav h1 a::before {
 /* ====================== Restaurant Filtering ====================== */
 #map-options {
   width: 100%;
+  background-color: #3397DB;
+  text-align: center;
+}
+.filter-wrapper {
+  max-width: 80%;
+  margin: 0 auto;
 }
 .filter-options {
   display: flex;
-  width: 100%;
-  height: 50px;
-  background-color: #3397DB;
+  flex-wrap: wrap;
+  align-content: center;
   align-items: center;
+  vertical-align: middle;
 }
 .filter-options h2 {
   color: white;
   font-size: 1.5rem;
   font-weight: normal;
   line-height: 3rem;
-  margin: 0 20px;
+  margin: 0 20px 0 auto;
 }
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
-  font-size: 11pt;
-  height: 35px;
+  font-size: 1.1rem;
+  height: 3rem;
   letter-spacing: 0;
-  margin: 10px;
+  margin: 0 10px;
   padding: 0 10px;
   width: 200px;
+  border-radius: 0.3rem;
+}
+@media screen and (max-width: 450px) {
+  .filter-wrapper {
+    padding: 0.5rem 0;
+  }
+  .filter-options h2 {
+    display: none;
+  }
+  .filter-options select {
+    width: 100%;
+    margin: 1rem;
+  }
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -222,7 +237,12 @@ nav h1 a::before {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+.restaurant-description {
+  display: flex;
+  flex-wrap: wrap;
+}
+.restaurant-name {
+  width: 100%;
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 1.4rem;
@@ -231,22 +251,33 @@ nav h1 a::before {
   line-height: 1.3rem;
   margin: 20px 0 10px;
   text-transform: uppercase;
+  text-align: center;
 }
-#restaurants-list p {
+.restaurant-neighborhood,
+.restaurant-address {
+  width: 100%;
   margin: 0;
-  font-size: 1.1rem;
+  text-align: center;
+  font-size: 1.3rem;
 }
-#restaurants-list li a {
+
+.restaurant-details {
   background-color: #ffa500;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
   font-size: 1rem;
-  margin: 15px 0 0;
+  margin: 1rem auto;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+@media screen and (max-width: 450px) {
+  #restaurants-list li {
+    width: 100%;
+  }
 }
 
 /* ====================== Restaurant Details ====================== */
