@@ -10,6 +10,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  toggleFilterOptions();
 });
 
 /**
@@ -139,15 +140,19 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   li.className = 'restaurants-list-item';
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
-  
   const name = document.createElement('h1');
   name.className = 'restaurant-name';
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  const picture = document.createElement('picture');
+  picture.className = 'restaurant-image';
+  li.append(picture);
+
+  const img = document.createElement('img');
+  img.className = 'restaurant-img';
+  img.src = DBHelper.imageUrlForRestaurant(restaurant);
+  picture.append(img);
   
   const section = document.createElement('section');
   section.className = 'restaurant-description';
@@ -184,5 +189,24 @@ addMarkersToMap = (restaurants = self.restaurants) => {
       window.location.href = marker.url
     });
     self.markers.push(marker);
+  });
+}
+
+// Show/hide filter options
+toggleFilterOptions = () => {
+  let filterButton = document.querySelector('.filter-options h2');
+  let filterButtonIcon = filterButton.querySelector('i');
+  let filterForm = document.querySelector('.filter-options form');
+
+  filterButton.addEventListener('click', () => {
+    if (filterForm.classList.contains('hidden')) {
+      filterForm.classList.remove('hidden');
+      filterButtonIcon.classList.remove('fa-angle-up');
+      filterButtonIcon.classList.add('fa-angle-down');
+    } else {
+      filterForm.classList.add('hidden');
+      filterButtonIcon.classList.remove('fa-angle-down');
+      filterButtonIcon.classList.add('fa-angle-up');
+    }
   });
 }

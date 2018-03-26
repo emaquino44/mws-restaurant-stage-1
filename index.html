@@ -33,21 +33,23 @@
       <section id="map-options">
         <div class="filter-wrapper">
           <div class="filter-options">
-            <h2>Filter Results</h2>
-            <label id="neighborhoods-select-label">
-              <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-                <option value="all">All Neighborhoods</option>
-              </select>
-            </label>
-            <label id="cuisines-select-label">
-              <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-                <option value="all">All Cuisines</option>
-              </select>
-            </label>
+            <h2><i class="fas fa-angle-down"> </i>Filter Results</h2>
+            <form id="filter-options-form">
+              <label id="neighborhoods-select-label">
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+                  <option value="all">All Neighborhoods</option>
+                </select>
+              </label>
+              <label id="cuisines-select-label">
+                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+                  <option value="all">All Cuisines</option>
+                </select>
+              </label>
+            </form>
           </div>
         </div>
       </section>
-      <section id="restaurans">
+      <section id="restaurants">
         <ul id="restaurants-list"></ul>
       </section>  
     </main>

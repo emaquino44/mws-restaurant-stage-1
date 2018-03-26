@@ -3,6 +3,7 @@
 
 * {
   font-size: 10px;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -11,20 +12,16 @@ body,
 td,
 th,
 p {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	color: #333;
 	line-height: 1.5rem;
 }
 
 body {
-	background-color: #fdfdfd;
-	margin: 0;
-	position:relative;
+  background-color: #f3f3f3;
 }
 
 ul li {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	color: #333;
 }
@@ -51,7 +48,7 @@ h4,
 h5, 
 h6 {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0 0 2rem;
+  margin: 0;
 }
 
 article, 
@@ -70,8 +67,15 @@ section {
 }
 
 .container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
+}
+@media screen and (min-width: 1001px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 #header {
@@ -91,7 +95,7 @@ section {
   align-content: center;
   align-items: center;
   background-color: #444;
-  width: calc(100% - 1.5rem);
+  width: calc(100% - 3rem);
   color: #aaa;
   font-size: 0.8rem;
   letter-spacing: 0.1rem;
@@ -101,7 +105,7 @@ section {
 }
 #footer p {
   color: #aaa;
-  margin: 0 0.4rem;
+  margin: 0 auto;
 }
 @media screen and (max-width: 450px) {
   #footer p,
@@ -110,6 +114,13 @@ section {
     margin: 0;
   }
 }
+
+/* Special classes */
+
+.hidden {
+  display: none;
+}
+
 /* ====================== Navigation ====================== */
 
 nav {
@@ -132,12 +143,12 @@ nav h1 a {
 }
 
 #breadcrumb {
-    padding: 10px 40px 16px;
+    padding: 1rem 4rem 1.6rem;
     list-style: none;
     background-color: #eee;
     font-size: 1.7rem;
     margin: 0;
-    width: calc(50% - 80px);
+    width: calc(50% - 8rem);
 }
 
 /* Display list items side by side */
@@ -147,7 +158,7 @@ nav h1 a {
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
-    padding: 8px;
+    padding: 0.8rem;
     color: black;
     content: "/\00a0";
 }
@@ -165,8 +176,8 @@ nav h1 a {
 }
 /* ====================== Map ====================== */
 #map-container {
-  width: 100%;
-  height: calc(100vh - 5rem - 50px);
+    width: 100%;
+    height: calc(100vh - 5rem - 13rem);
 }
 #map {
   height: 100%;
@@ -180,8 +191,7 @@ nav h1 a {
   text-align: center;
 }
 .filter-wrapper {
-  max-width: 80%;
-  margin: 0 auto;
+  max-width: 100%;
 }
 .filter-options {
   display: flex;
@@ -192,10 +202,20 @@ nav h1 a {
 }
 .filter-options h2 {
   color: white;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: normal;
   line-height: 3rem;
-  margin: 0 20px 0 auto;
+  padding: 1rem;
+  margin: 0 auto;
+  width: calc(100% - 2rem);
+}
+.filter-options h2 i {
+  font-size: 2rem;
+  margin: 0 1rem;
+  width: 2rem;
+}
+.filter-options form {
+  width: 100%;
 }
 .filter-options label {
   text-align: center;
@@ -207,38 +227,44 @@ nav h1 a {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
-  font-size: 1.1rem;
-  height: 3rem;
-  letter-spacing: 0;
-  margin: 0 10px;
-  padding: 0 10px;
-  width: calc(200px - 20px - 20px);
-  border-radius: 0.3rem;
 }
 
-#cuisines-select option[value="all"] {}
+@media screen and (max-width: 500px) {
 
-@media screen and (max-width: 450px) {
-  #map-container {
-    height: calc(100vh - 5rem - 110px);
+  .filter-options {
+    width: 100%;
+    height: 11rem;
+    padding: 1rem 0;
   }
-  .filter-wrapper {
-    padding: 0.5rem 0;
-  }
+
   .filter-options h2 {
     display: none;
   }
+
+  .filter-options label {
+    margin: 0.5rem auto;
+    padding: 0.5rem 0;
+    width: 90%;
+  }
+
   .filter-options select {
     width: calc(100% - 2rem);
+    height: 4rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    border-radius: 0.3rem;
   }
+
   .filter-options option {
-    font-size: 1.5rem;
-    padding: 0.5rem 0;
+    font-size: 1.4rem;
   }
 
 }
 
 /* ====================== Restaurant Listing ====================== */
+#restaurants {
+  width: 100%;
+}
 #restaurants-list {
   width: 100%;
   display: flex;
@@ -247,26 +273,19 @@ nav h1 a {
   align-items: center;
   background-color: #f3f3f3;
   list-style: outside none none;
-  margin: 30px 0;
-  /* padding: 30px 15px 60px; */
+  margin: 2rem auto;
   text-align: center;
 }
 .restaurants-list-item {
   background-color: #fff;
   font-family: Arial,sans-serif;
-  margin: 5px;
-  min-height: 380px;
-  text-align: left;
-  width: calc(50% - 10px);
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  margin: 0.5rem 0;
+}
+.restaurant-image {
+  margin: 0;
 }
 .restaurant-img {
-  background-color: #ccc;
-  margin: 0;
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 .restaurant-description {
@@ -277,62 +296,169 @@ nav h1 a {
   width: 100%;
   color: #f18200;
   font-family: Arial,sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 200;
   letter-spacing: 0;
-  line-height: 1.3rem;
-  margin: 20px 0 10px;
+  line-height: 1.8rem;
   text-transform: uppercase;
   text-align: center;
 }
 .restaurant-description {
-  padding: 1rem 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  align-items: center;
 }
 .restaurant-neighborhood,
 .restaurant-address {
   width: 100%;
-  margin: 0;
+  margin: 0.2rem 0;
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
-
 .restaurant-details {
   background-color: #ffa500;
   border-bottom: 3px solid #eee;
   color: #fff;
-  display: inline-block;
   font-size: 1rem;
-  margin: 1rem auto;
-  padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
 }
-.restaurant-details:hover {
-  background-color: #ff5500;
-}
 
 @media screen and (max-width: 450px) {
-  .restaurants-list-item {
+
+  .restaurant-name {
+    padding: 1rem 0;
+    font-size: 1.6rem;
+  }
+
+  .restaurant-image {
+    display: block;
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+    overflow: hidden;
+  }
+
+  .restaurant-img {
+    overflow: hidden;
+    object-fit: contain;
+  }
+
+  .restaurant-description {
+    padding: 1rem 0;
+  }
+
+  .restaurant-details {
+    display: block;
+    padding: 1rem 0;
+    font-size: 1.6rem;
     width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 451px) and (max-width: 600px) {
+
+  .restaurants-list-item {
+    display: flex;
+    flex-flow: column wrap;
+    padding: 0;
+    margin: 0.5rem 0;
+    width: 100%;
+    height: 15rem;
+    /* align-items: stretch; */
+    /* align-content: stretch; */
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .restaurant-image {
+    display: block;
+    width: calc(40% - 2rem);
+    height: calc(100% - 2rem);
+    border: 1rem solid #ccc;
+    background: #ccc;
+    overflow: hidden;
+  }
+
+  .restaurant-img {
+    object-fit: contain;
   }
   .restaurant-name {
-    order: 0;
+    width: 60%;
+    height: 3rem;
+    order: 1;
+    padding: 1rem 0;
+    line-height: 3rem;
+    font-size: 1.8rem;
   }
-  .restaurant-img {
+  
+  .restaurant-description {
+    width: 60%;
+    height: calc(100% - 5rem - 4.3rem);
     order: 1;
   }
-  .restaurant-description {
-    padding: 1.5rem 0;
-    order: 2;
-  }
+  
   .restaurant-details {
-    width: 100%;
-    padding: 1.3rem 0 1rem 0;
-    text-align: center;
-    font-size: 1.2rem;
-    order: 3;
+    max-width: 40%;
+    height: 2rem;
+    padding: 0.5rem 2rem;
+    margin: 0 auto;
+    line-height: 2rem;
+    font-size: 1.6rem;
+    order: 1;
+  }
+
+}
+@media screen and (min-width: 500px) and (max-width: 600px) {
+  
+  .restaurants-list-item {
+    height: 18rem;
+  }
+
+}
+
+@media screen and (min-width: 601px) {
+
+  .restaurants-list-item {
+    margin: 0.5rem;
+    width: calc((100% / 2) - 1rem);
+    border-bottom: 1px solid #ccc;
+  }
+
+  .restaurant-name {
+    padding: 1rem 0;
+  }
+
+  .restaurant-image {
+    display: block;
+    overflow: hidden;
+    margin: 0 1rem 1rem 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .restaurant-description {
+    margin: 1rem 0;
+    font-size: 1.4rem;
+  }
+
+  .restaurant-details {
+    display: block;
+    padding: 1rem 0;
+    margin: 1.5rem auto 0.5rem auto;
+    font-size: 1.6rem;
+  }
+
+}
+
+@media screen and (min-width: 901px) {
+
+  .restaurants-list-item {
+    margin: 0.5rem;
+    width: calc((100% / 3) - 1rem);
+    border-bottom: 1px solid #ccc;
   }
 
 }
