@@ -85,15 +85,12 @@ section {
 #maincontent {
   display: flex;
   flex-wrap: wrap;
-  background-color: #f3f3f3;
+  /* background-color: #f3f3f3; */
+  background-color: #333;
   width: 100%;
 }
 
 #footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
   background-color: #444;
   width: calc(100% - 3rem);
   color: #aaa;
@@ -105,14 +102,28 @@ section {
 }
 #footer p {
   color: #aaa;
-  margin: 0 auto;
 }
 @media screen and (max-width: 450px) {
+
+  #footer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   #footer p,
   #footer a {
     width: 100%;
     margin: 0;
   }
+}
+
+@media screen and (min-width: 451px) {
+
+  #footer p,
+  #footer a {
+    display: inline-block;
+  }
+
 }
 
 /* Special classes */
@@ -177,7 +188,7 @@ nav h1 a {
 /* ====================== Map ====================== */
 #map-container {
     width: 100%;
-    height: calc(100vh - 5rem - 13rem);
+    height: calc(100vh - 5rem - 4rem);
 }
 #map {
   height: 100%;
@@ -187,7 +198,6 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 #map-options {
   width: 100%;
-  background-color: #3397DB;
   text-align: center;
 }
 .filter-wrapper {
@@ -196,52 +206,77 @@ nav h1 a {
 .filter-options {
   display: flex;
   flex-wrap: wrap;
-  align-content: center;
-  align-items: center;
   vertical-align: middle;
+  position: relative;
 }
-.filter-options h2 {
-  color: white;
-  font-size: 2rem;
-  font-weight: normal;
-  line-height: 3rem;
-  padding: 1rem;
-  margin: 0 auto;
-  width: calc(100% - 2rem);
+
+.filter-options form h3 {
+  display: none;
 }
-.filter-options h2 i {
-  font-size: 2rem;
-  margin: 0 1rem;
-  width: 2rem;
-}
+
 .filter-options form {
+  background-color: #3397DB;
   width: 100%;
+  position: absolute;
 }
-.filter-options label {
-  text-align: center;
-  width: calc(100% - 2rem);
-  display: block;
-  margin: 1rem;
-}
+
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 800px) {
 
-  .filter-options {
+  .filter-options aside {
+    padding: 0;
     width: 100%;
-    height: 11rem;
-    padding: 1rem 0;
+    background: #333;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .filter-options h2 {
-    display: none;
+  .filter-options aside button {
+    line-height: 4rem;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    background: #3397DB;
+    border: none;
+    color: #fff;
   }
 
+  .filter-options aside button span {
+    font-size: 1.6rem;
+  }
+
+  .filter-options aside i {
+    font-size: 1.8rem;
+    margin: 0 1rem 0 -1rem;
+    width: 2rem;
+  }
+
+  .filter-options aside a {
+    font-size: 1.8rem;
+    line-height: 4rem;
+    width: 50%;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+  }
+
+  
+  .filter-options form {
+    position: absolute;
+    left: 0;
+    top:0;
+    transform: translateY(-100%);
+  }
+  
   .filter-options label {
+    text-align: center;
+    display: block;
     margin: 0.5rem auto;
     padding: 0.5rem 0;
     width: 90%;
@@ -261,17 +296,132 @@ nav h1 a {
 
 }
 
+@media screen and (min-width: 501px) and (max-width: 800px) {
+
+  .filter-options form {
+    padding: 1rem 0;
+  }
+
+  .filter-options aside button {
+    display: none;
+  }
+  .filter-options aside a {
+    width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 801px) {
+
+  #map-container {
+    height: calc(100vh - 5rem);
+    width: 70%;
+    order: 2;
+  }
+
+  #map-options {
+    height: calc(100vh - 5rem);
+    width: 30%;
+    order: 1;
+    background: #333;
+  }
+
+  .filter-options aside {
+    order: 1;
+    width: 100%;
+  }
+
+  .filter-options aside a {
+    display: block;
+    width: 100%;
+    background: #f18200;
+    padding: 1rem 0;
+    line-height: 3rem;
+    font-size: 1.6rem;
+    color: #fff;
+  }
+
+  .filter-options aside button {
+    display: none;
+  }
+
+  .filter-options form {
+    margin: 2rem 0;
+    padding: 1rem 0;
+    position: relative;
+  }
+
+  .filter-options form h3 {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    padding: 1rem 0;
+  }
+
+  .filter-options form i,
+  .filter-options aside i {
+    font-size: 1.8rem;
+    margin: 0 1rem 0 -1rem;
+    width: 2rem;
+  }
+
+  .filter-options label {
+    text-align: center;
+    display: block;
+    margin: 0.5rem auto;
+    padding: 0.5rem 0;
+    width: 90%;
+  }
+
+  .filter-options select {
+    width: calc(100% - 2rem);
+    height: 4rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    border-radius: 0.3rem;
+  }
+
+  .filter-options option {
+    font-size: 1.4rem;
+  }
+
+  #restaurants {
+    order: 3;
+  }
+
+  #footer {
+    order: 4;
+  }
+
+}
+
 /* ====================== Restaurant Listing ====================== */
 #restaurants {
   width: 100%;
+  background-color: #333;
 }
+
+#restaurants h2 {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 2rem;
+    padding: 1rem 0;
+    width: 100%;
+    color: #f18200;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    line-height: 3rem;
+}
+
 #restaurants-list {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: center;
   align-items: center;
-  background-color: #f3f3f3;
+  /* background-color: #f3f3f3; */
   list-style: outside none none;
   margin: 2rem auto;
   text-align: center;
@@ -279,7 +429,8 @@ nav h1 a {
 .restaurants-list-item {
   background-color: #fff;
   font-family: Arial,sans-serif;
-  margin: 0.5rem 0;
+  margin: 0.5rem;
+  width: calc(100% - 1rem);
 }
 .restaurant-image {
   margin: 0;
@@ -329,6 +480,10 @@ nav h1 a {
 
 @media screen and (max-width: 450px) {
 
+  #restaurants h2 {
+    font-size: 2rem;
+  }
+
   .restaurant-name {
     padding: 1rem 0;
     font-size: 1.6rem;
@@ -361,15 +516,15 @@ nav h1 a {
 
 @media screen and (min-width: 451px) and (max-width: 600px) {
 
+  #restaurants h2 {
+    font-size: 2rem;
+  }
+
   .restaurants-list-item {
     display: flex;
     flex-flow: column wrap;
     padding: 0;
-    margin: 0.5rem 0;
-    width: 100%;
     height: 15rem;
-    /* align-items: stretch; */
-    /* align-content: stretch; */
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
   }
@@ -412,7 +567,7 @@ nav h1 a {
   }
 
 }
-@media screen and (min-width: 500px) and (max-width: 600px) {
+@media screen and (min-width: 550px) and (max-width: 600px) {
   
   .restaurants-list-item {
     height: 18rem;

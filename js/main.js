@@ -194,19 +194,17 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 
 // Show/hide filter options
 toggleFilterOptions = () => {
-  let filterButton = document.querySelector('.filter-options h2');
-  let filterButtonIcon = filterButton.querySelector('i');
+  let filterButton = document.querySelector('.filter-options button');
+  let filterButtonLabel = filterButton.querySelector('span');
   let filterForm = document.querySelector('.filter-options form');
 
   filterButton.addEventListener('click', () => {
     if (filterForm.classList.contains('hidden')) {
       filterForm.classList.remove('hidden');
-      filterButtonIcon.classList.remove('fa-angle-up');
-      filterButtonIcon.classList.add('fa-angle-down');
+      filterButtonLabel.textContent = 'Hide';
     } else {
       filterForm.classList.add('hidden');
-      filterButtonIcon.classList.remove('fa-angle-down');
-      filterButtonIcon.classList.add('fa-angle-up');
+      filterButtonLabel.textContent = 'Show';
     }
   });
 }
