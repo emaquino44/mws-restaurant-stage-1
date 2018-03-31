@@ -14,61 +14,94 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="img/favicon//apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/favicon//apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="img/favicon//apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/favicon//apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="img/favicon//apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="img/favicon//apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="img/favicon//apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon//apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="img/favicon//android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon//favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="img/favicon//favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon//favicon-16x16.png">
+  <link rel="manifest" href="img/favicon//manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="img/favicon//ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
-  <header>
-    <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-  </header>
-  <!-- End header -->
+  <!-- content container -->
+  <div class="container">
+    <!-- Beginning header -->
+    <header>
+      <!-- Beginning nav -->
+      <nav>
+        <h1><a href="/">Restaurant Reviews</a>
+        </h1>
+      </nav>
+      <!-- Beginning breadcrumb -->
+      <ul id="breadcrumb" >
+        <li><a href="/">Home</a></li>
+      </ul>
+      <!-- End breadcrumb -->
+      <!-- End nav -->
+    </header>
+    <!-- End header -->
 
-  <!-- Beginning main -->
-  <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-  </main>
-  <!-- End main -->
+    <!-- Beginning main -->
+    <main id="maincontent">
+      <!-- Beginning map -->
+      <section id="map-container">
+        <div id="map"></div>
+      </section>
+      <!-- End map -->
+      <!-- Beginning restaurant -->
+      <section id="restaurant-container">
+        <h1 id="restaurant-name"></h1>
+        <picture id="restaurant-image">
+          <img id="restaurant-img">
+        </picture>
+        <p id="restaurant-cuisine"></p>
+        <p id="restaurant-address"></p>
+        <table id="restaurant-hours">
+          <thead>
+            <tr>
+              <th colspan="2">Opening Hours</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      <!-- end restaurant -->
+      <!-- Beginning reviews -->
+      <section id="reviews-container">
+        <ul id="reviews-list"></ul>
+      </section>
+      <!-- End reviews -->
+    </main>
+    <!-- End main -->
 
-  <!-- Beginning footer -->
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
-
+    <!-- Beginning footer -->
+    <footer id="footer">
+      <p>Copyrights © 2017</p>
+      <a href="/">
+        <strong>Restaurant Reviews</strong>
+      </a>
+      <p>All Rights Reserved.</p>
+    </footer>
+    <!-- End footer -->
+  </div><!-- end of container -->
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>
