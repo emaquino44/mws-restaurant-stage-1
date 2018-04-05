@@ -91,7 +91,14 @@ section {
   background-size: 3.5rem auto;
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 320px) {
+  .inside header h1 a,
+  #header a {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 350px) {
   .inside header h1 a,
   #header a {
     font-size: 1.8rem;
@@ -327,7 +334,7 @@ nav h1 a {
 @media screen and (min-width: 801px) {
   
   #map-container {
-    height: 60vh;
+    height: calc(100vh - 6rem - 5.6rem);
   }
 
   .filter-options {
@@ -469,7 +476,7 @@ nav h1 a {
 @media screen and (max-width: 450px) {
 
   #restaurants h2 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   .restaurant-name {
@@ -691,8 +698,8 @@ nav h1 a {
 /* Map */
 .inside #map-container {
   height: calc(60vh - 1rem);
-  width: calc(50% - 1rem);
-  padding: 0.5rem;
+  width: 100%;
+  padding: 0;
   margin: 0;
   order: 1;
 }
@@ -705,8 +712,6 @@ nav h1 a {
 
 /* Restaurant details */
 .inside #restaurant-container {
-  margin: 0.5rem;
-  width: calc(50% - 1rem);
   order: 0;
   display: flex;
   flex-wrap: wrap;
@@ -728,16 +733,116 @@ nav h1 a {
 .inside #restaurant-image {
   margin: 0.5rem;
   padding: 0;
-  width: calc(50% - 1rem);
+  width: calc(100% - 1rem);
   height: auto;
 }
 
-@media screen and (max-width: 450px) {
+.inside #restaurant-hours thead tr th {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.1rem;
+    border-bottom: 1px solid #333;
+    padding: 0.3rem 1rem 0.2rem 1rem;
+}
+
+.inside #restaurant-cuisine:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f2e7";
+    margin-right: 0.5rem;
+}
+
+.inside #reviews-container p:nth-child(3):before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f005";
+    margin-right: 0.5rem;
+}
+
+.inside #restaurant-address:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f041";
+    margin-right: 0.5rem;
+}
+
+.inside #restaurant-hours thead tr th:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f017";
+    margin-right: 0.5rem;
+}
+
+.inside #reviews-container h2:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f086";
+    margin-right: 0.5rem;
+}
+
+.inside #reviews-container p:first-child:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f2bd";
+    margin-right: 0.5rem;
+}
+
+.inside #reviews-container p:nth-child(2):before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f073";
+    margin-right: 0.5rem;
+}
+
+/* Restaurant reviews */
+.inside #reviews-container {
+    background-color: #f3f3f3;
+    padding: 3rem 1rem 1rem 1rem;
+    width: calc(100% - 2rem);
+    order: 2;
+  }
+  
+  .inside #reviews-list {
+    list-style: none;
+  }
+
+  .inside #reviews-list li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+.inside #reviews-container h2 {
+  padding: 1rem 0 0.5rem 0;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.inside #reviews-container p {
+  font-size: 1.3rem;
+  padding: 0.2rem;
+}
+
+.inside #reviews-container p:first-child {
+  float: left;
+}
+
+.inside #reviews-container p:nth-child(2) {
+  float: right;
+}
+
+.inside #reviews-container p:nth-child(3) {
+  clear: both;
+  margin-top: 0.5rem;
+}
+
+.inside #reviews-container p:nth-child(4) {
+  text-align: justify;
+  text-justify: newspaper;
+}
+
+@media screen and (max-width: 500px) {
 
   .inside #restaurant-container {
     order: 0;
     margin: 0;
-    min-height: calc(100vh - 6rem - 4.3rem - 1rem);
     width: 100%;
     border-top: 1px solid #ccc;
   }
@@ -754,37 +859,17 @@ nav h1 a {
     padding-left: 0.3rem;
   }
 
-  .inside #restaurant-cuisine:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f2e7";
-    margin-right: 1rem;
-  }
-
-  .inside #restaurant-address:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f041";
-    margin-right: 1rem;
-  }
-
   .inside #restaurant-hours {
-    margin: 0.5rem;
+    margin: 1rem 0.5rem;
     width: calc(100% - 1rem);
   }
 
   .inside #restaurant-hours thead tr th {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: 0.1rem;
-    border-bottom: 1px solid #333;
-    padding: 0.3rem 1rem 0.2rem 1rem;
+    line-height: 2rem;
   }
 
-  .inside #restaurant-hours thead tr th:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f017";
-    margin-right: 1rem;
+  .inside #restaurant-hours tbody tr:first-child td {
+    padding-top: 2rem;
   }
 
   .inside #restaurant-hours tbody tr td {
@@ -805,87 +890,66 @@ nav h1 a {
     order: 1;
   }
 
-  .inside #reviews-container {
-    background-color: #f3f3f3;
-    padding: 1rem;
+}
+
+@media screen and (min-width: 501px) {
+
+  .inside #restaurant-image {
     width: calc(100% - 2rem);
+    padding: 1rem;
   }
 
-  .inside #reviews-container li {
-    padding: 1rem 0;
-    border-bottom: 1px solid #ccc;
+  .inside #restaurant-details {
+    width: 100%;
+    display: flex;
   }
 
-  .inside #reviews-container h2 {
-    padding: 1rem 0 0.5rem 0;
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-  }
-
-  .inside #reviews-container h2:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f086";
-    margin-right: 1rem;
-  }
-
-  .inside #reviews-container p {
+  .inside #restaurant-cuisine,
+  .inside #restaurant-address {
+    padding: 1rem;
+    max-width: calc(50% - 2rem);
     font-size: 1.3rem;
-    padding: 0.2rem;
+    text-align: center;
   }
 
-  .inside #reviews-container p:first-child {
-    float: left;
+  .inside #restaurant-cuisine {
+    min-width: 30%;
+    max-width: calc(50% - 3rem);
+    margin-left: 1rem;
   }
 
-  .inside #reviews-container p:first-child:before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f2bd";
-    margin-right: 1rem;
+  .inside #restaurant-hours {
+    margin: 1rem auto 3rem auto;
+    width: calc(100% - 4rem);
   }
 
-  .inside #reviews-container p:nth-child(2) {
-    float: right;
-    text-transform: uppercase;
+  .inside #restaurant-hours tbody tr {
+    display: inline-block;
+    width: calc(50%);
   }
 
-  .inside #reviews-container p:nth-child(2):before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f073";
-    margin-right: 1rem;
+  .inside #restaurant-hours tbody tr:nth-child(2n+1) {
+    text-align: right;
   }
 
-  .inside #reviews-container p:nth-child(3) {
-    clear: both;
+  .inside #restaurant-hours tbody td {
+    font-size: 1.2rem;
+    display: block;
+    margin: 0.5rem;
   }
 
-  .inside #reviews-container p:nth-child(3):before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f005";
-    margin-right: 1rem;
+  .inside #restaurant-hours tbody tr td:first-child {
+    font-weight: 800;
   }
 
-  .inside #reviews-container p:nth-child(4) {
-    text-align: justify;
-    text-justify: newspaper;
+  .inside #reviews-list {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-}
+  .inside #reviews-list li {
+    margin: 1rem;
+    width: calc(50% - 2rem);
+  }
 
-.inside #restaurant-cuisine {
-  width: 50%;
-
-}
-
-/* Restaurant reviews */
-.inside #reviews-container {
-  width: 100%;
-  order: 2;
-}
-
-/* Restaurant Details - Footer */
-.inside #footer {
-  width: 100%;
 }
