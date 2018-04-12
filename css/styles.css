@@ -278,7 +278,9 @@ nav h1 a {
   }
 
   .filter-options aside button:hover,
-  .filter-options aside a:hover {
+  .filter-options aside button:focus,
+  .filter-options aside a:hover,
+  .filter-options aside a:focus {
     background-color: #f18200;
   }
 
@@ -468,7 +470,8 @@ nav h1 a {
   text-transform: uppercase;
 }
 
-.restaurant-details:hover {
+.restaurant-details:hover,
+.restaurant-details:focus {
   background-color: #ffa500;
   color: #fff;
 }

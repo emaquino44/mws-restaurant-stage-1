@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
   toggleFilterOptions();
+  accessibility();
 });
 
 /**
@@ -32,6 +33,8 @@ fetchNeighborhoods = () => {
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
+  select.setAttribute('tabindex', 0);
+  select.setAttribute('aria-label', 'Select neighborhood');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
@@ -59,7 +62,8 @@ fetchCuisines = () => {
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
-
+  select.setAttribute('tabindex', 0);
+  select.setAttribute('aria-label', 'Select cuisine');
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
@@ -143,6 +147,7 @@ createRestaurantHTML = (restaurant) => {
   const name = document.createElement('h1');
   name.className = 'restaurant-name';
   name.innerHTML = restaurant.name;
+  name.setAttribute('aria-label', `Restaurant ${restaurant.name}`)
   li.append(name);
 
   const picture = document.createElement('picture');
@@ -152,10 +157,12 @@ createRestaurantHTML = (restaurant) => {
   const img = document.createElement('img');
   img.className = 'restaurant-img';
   img.src = DBHelper.imageUrlForRestaurant(restaurant);
+  img.setAttribute('alt', `Picture of ${restaurant.name}`);
   picture.append(img);
   
   const section = document.createElement('section');
   section.className = 'restaurant-description';
+  section.setAttribute('aria-label', `Information about ${restaurant.name} restaurant`)
   li.append(section);
 
   const neighborhood = document.createElement('p');
@@ -170,7 +177,7 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.className = 'restaurant-details';
-  more.setAttribute('alt', 'View Details');
+  more.setAttribute('aria-label', `View more details about ${restaurant.name} restaurant`);
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
@@ -194,17 +201,30 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 
 // Show/hide filter options
 toggleFilterOptions = () => {
-  let filterButton = document.querySelector('.filter-options button');
-  let filterButtonLabel = filterButton.querySelector('span');
-  let filterForm = document.querySelector('.filter-options form');
+  const filterButton = document.querySelector('.filter-options button');
+  const filterButtonLabel = filterButton.querySelector('span');
+  const filterForm = document.querySelector('.filter-options form');
 
+  filterButton.setAttribute('aria-label', 'Hide map filter options');
   filterButton.addEventListener('click', () => {
     if (filterForm.classList.contains('hidden')) {
       filterForm.classList.remove('hidden');
       filterButtonLabel.textContent = 'Hide';
+      filterButton.setAttribute('aria-label', 'Hide map filter options');
     } else {
       filterForm.classList.add('hidden');
       filterButtonLabel.textContent = 'Show';
+      filterButton.setAttribute('aria-label', 'Show map filter options');
     }
   });
+}
+
+// Add accessibility features (WAI-ARIA)
+accessibility = () => {
+  // map section
+  const map = document.getElementById('map');
+  map.setAttribute('role', 'application');
+  map.setAttribute('aria-label', 'Map of Neighborhoods');
+  // show list button
+  document.querySelector('aside a').setAttribute('aria-label', 'Show filtered restaurants');
 }
