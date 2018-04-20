@@ -33,12 +33,12 @@ a {
 
 a:hover, 
 a:focus {
-	color: #3397db;
+	color: #f18200;
 	text-decoration: none;
 }
 
 a img{
-	border: none 0 #fff;
+	border: none;
 }
 
 h1, 
@@ -66,11 +66,13 @@ section {
 	display: block;
 }
 
+/* content container */
 .container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
+
 @media screen and (min-width: 1001px) {
   .container {
     max-width: 1200px;
@@ -108,7 +110,6 @@ section {
 #maincontent {
   display: flex;
   flex-wrap: wrap;
-  /* background-color: #f3f3f3; */
   background-color: #333;
   width: 100%;
 }
@@ -157,7 +158,7 @@ section {
   display: none;
 }
 
-/* ====================== Navigation ====================== */
+/* Navigation */
 
 nav {
   width: 100%;
@@ -222,6 +223,15 @@ nav h1 a {
   width: 100%;
   background-color: #ccc;
 }
+
+@media screen and (min-width: 801px) {
+  
+  #map-container {
+    height: calc(100vh - 6rem - 5.6rem);
+  }
+
+}
+
 /* ====================== Restaurant Filtering ====================== */
 #map-options {
   width: 100%;
@@ -255,6 +265,10 @@ nav h1 a {
   font-family: Arial,sans-serif;
 }
 
+.filter-options select:focus {
+    background-color: #ffd9ad;
+}
+
 @media screen and (max-width: 800px) {
 
   .filter-options aside {
@@ -277,10 +291,10 @@ nav h1 a {
     cursor: pointer;
   }
 
-  .filter-options aside button:hover,
-  .filter-options aside button:focus,
-  .filter-options aside a:hover,
-  .filter-options aside a:focus {
+  .filter-options button:hover,
+  .filter-options button:focus,
+  .filter-options a:hover,
+  .filter-options a:focus {
     background-color: #f18200;
   }
 
@@ -334,10 +348,6 @@ nav h1 a {
 }
 
 @media screen and (min-width: 801px) {
-  
-  #map-container {
-    height: calc(100vh - 6rem - 5.6rem);
-  }
 
   .filter-options {
     display: flex;
@@ -405,7 +415,6 @@ nav h1 a {
   flex-wrap: wrap;
   align-content: center;
   align-items: center;
-  /* background-color: #f3f3f3; */
   list-style: outside none none;
   margin: 2rem auto;
   text-align: center;
@@ -434,7 +443,7 @@ nav h1 a {
 
 .restaurant-name {
   width: 100%;
-  color: #f18200;
+  color: #ee7f00;
   font-family: Arial,sans-serif;
   font-size: 1.8rem;
   font-weight: 200;
@@ -489,7 +498,7 @@ nav h1 a {
 
   .restaurant-image {
     display: block;
-    padding: 1rem;
+    padding: 0 1rem;
     max-width: calc(100% - 2rem);
     overflow: hidden;
   }
@@ -965,7 +974,6 @@ nav h1 a {
 
   .inside #restaurant-container {
     padding-bottom: 1rem;
-    /* background: #333; */
   }
 
   .inside #restaurant-name {
@@ -997,7 +1005,6 @@ nav h1 a {
     margin: 0;
     font-size: 1.4rem;
     text-align: center;
-    /* color: #fff; */
   }
 
   .inside #restaurant-hours {
@@ -1007,15 +1014,6 @@ nav h1 a {
     right: 0;
     width: 50%;
   }
-
-  /* .inside #restaurant-hours thead tr th {
-    border-bottom: 1px solid #fff;
-  }
-
-  .inside #restaurant-hours thead th,
-  .inside #restaurant-hours tbody td {
-    color: #fff;
-  } */
 
   .inside #restaurant-hours tbody tr:first-child td {
     padding-top: 1rem;

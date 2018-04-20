@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchCuisines();
   toggleFilterOptions();
   accessibility();
+  registerServiceWorker();
 });
 
 /**
@@ -227,4 +228,15 @@ accessibility = () => {
   map.setAttribute('aria-label', 'Map of Neighborhoods');
   // show list button
   document.querySelector('aside a').setAttribute('aria-label', 'Show filtered restaurants');
+}
+
+// Register Service Worker
+registerServiceWorker = () => {
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/js/service_worker.js').then( () => {
+      console.log('Service Worker registered.');
+    }).catch( () => {
+      console.warn('Service Worker not registered');
+    });
+  }
 }
