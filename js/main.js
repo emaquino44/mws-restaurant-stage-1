@@ -145,7 +145,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   li.className = 'restaurants-list-item';
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h3');
   name.className = 'restaurant-name';
   name.innerHTML = restaurant.name;
   name.setAttribute('aria-label', `Restaurant ${restaurant.name}`)
@@ -224,7 +224,6 @@ toggleFilterOptions = () => {
 accessibility = () => {
   // map section
   const map = document.getElementById('map');
-  map.setAttribute('role', 'application');
   map.setAttribute('aria-label', 'Map of Neighborhoods');
   // show list button
   document.querySelector('aside a').setAttribute('aria-label', 'Show filtered restaurants');
