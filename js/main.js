@@ -232,7 +232,7 @@ accessibility = () => {
 // Register Service Worker
 registerServiceWorker = () => {
   if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/js/service_worker.js').then( () => {
+    navigator.serviceWorker.register('/js/sw.js').then( () => {
       console.log('Service Worker registered.');
     }).catch( () => {
       console.warn('Service Worker not registered');

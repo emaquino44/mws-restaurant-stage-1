@@ -1,5 +1,5 @@
 // name of the cache
-const cacheName = 'restaurants-review-v1';
+const cacheName = 'restaurantsReview-v1';
 
 // cached files
 const assets = [
