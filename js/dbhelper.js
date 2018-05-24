@@ -16,45 +16,27 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then(response => response.json())
-      .then(restaurants => callback(null, restaurants))
-      .catch(error => callback(error, null));
+    if (checkIndexedDbSupport() && checkIndexedDBStorageExists()) {
+      getAllIndexedDBItems((err, restaurants) => {
+        if (err) return callback(err, null);
+        callback(null, restaurants);
+      });
+      console.log('restaurants loaded from indexedDB');
+    } else {
+      fetch(DBHelper.DATABASE_URL)
+        .then(response => response.json())
+        .then(restaurants => {
+          restaurants.map((restaurant, index) => setIndexedDBItem(index + 1, restaurant));
+          callback(null, restaurants);
+        })
+        .catch(error => callback(error, null));
+        console.log('restaurants loaded from database');
+    }
   }
-  // static fetchRestaurants(callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.open('GET', DBHelper.DATABASE_URL);
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) { // Got a success response from server!
-  //       const json = JSON.parse(xhr.responseText);
-  //       const restaurants = json.restaurants;
-  //       callback(null, restaurants);
-  //     } else { // Oops!. Got an error from server.
-  //       const error = (`Request failed. Returned status of ${xhr.status}`);
-  //       callback(error, null);
-  //     }
-  //   };
-  //   xhr.send();
-  // }
-
+  
   /**
    * Fetch a restaurant by its ID.
    */
-  // static fetchRestaurantById(id, callback) {
-  //   // fetch all restaurants with proper error handling.
-  //   DBHelper.fetchRestaurants((error, restaurants) => {
-  //     if (error) {
-  //       callback(error, null);
-  //     } else {
-  //       const restaurant = restaurants.find(r => r.id == id);
-  //       if (restaurant) { // Got the restaurant
-  //         callback(null, restaurant);
-  //       } else { // Restaurant does not exist in the database
-  //         callback('Restaurant does not exist', null);
-  //       }
-  //     }
-  //   });
-  // }
   static fetchRestaurantById(id, callback) {
     fetch(`${DBHelper.DATABASE_URL}/${id}`)
       .then(response => response.json())

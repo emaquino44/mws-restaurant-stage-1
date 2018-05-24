@@ -13,6 +13,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
   toggleFilterOptions();
   accessibility();
   registerServiceWorker();
+
+  // const store = "restaurants";
+  // setIndexedDBItem(store, 1, 'first');
+  // getAllIndexedDBItems(store, (err, items) => console.log(items));
+
+  // setIndexedDBItem(store, 1, 'modified');
+  // getAllIndexedDBItems(store, (err, items) => console.log(items));
+  // console.clear();
+  console.log(checkIndexedDbSupport());
+  console.log(checkIndexedDBStorageExists());
+
+  getIndexedDBItemByKey(1, (err, item) => console.log(item));
+
 });
 
 /**
