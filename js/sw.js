@@ -15,6 +15,10 @@ const assets = [
     '/js/main.js',
     '/js/restaurant_info.js',
     '/js/sw.js',
+<<<<<<< HEAD
+=======
+    '/js/idb.js',
+>>>>>>> 3cd8f2ec5a13f3ad13960302b0c7e17ecedf30c6
     '/img/favicon.ico',
     '/img/logo.svg',
     '/img/1.jpg',
