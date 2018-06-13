@@ -45,7 +45,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-<<<<<<< HEAD
     DBHelper.getAllCachedRestaurants().then(cachedRestaurants => {
       if (cachedRestaurants.length > 0) return callback(null, cachedRestaurants);
       fetch(DBHelper.DATABASE_URL)
@@ -120,35 +119,6 @@ class DBHelper {
   //       .catch(error => callback(error, null));
   //   });
   // };
-=======
-    if (checkIndexedDbSupport() && checkIndexedDBStorageExists()) {
-      getAllIndexedDBItems((err, restaurants) => {
-        if (err) return callback(err, null);
-        callback(null, restaurants);
-      });
-      console.log('restaurants loaded from indexedDB');
-    } else {
-      fetch(DBHelper.DATABASE_URL)
-        .then(response => response.json())
-        .then(restaurants => {
-          restaurants.map((restaurant, index) => setIndexedDBItem(index + 1, restaurant));
-          callback(null, restaurants);
-        })
-        .catch(error => callback(error, null));
-        console.log('restaurants loaded from database');
-    }
-  }
-  
-  /**
-   * Fetch a restaurant by its ID.
-   */
-  static fetchRestaurantById(id, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/${id}`)
-      .then(response => response.json())
-      .then(restaurant => callback(null, restaurant))
-      .catch(error => callback(error, null));
-  };
->>>>>>> 3cd8f2ec5a13f3ad13960302b0c7e17ecedf30c6
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
