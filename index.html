@@ -30,7 +30,7 @@
     <main id="maincontent">
       <!-- map -->
       <section id="map-container">
-        <div id="map" tabindex="0" aria-role="application"></div>
+        <div id="map" tabindex="0" role="application"></div>
       </section>
       <!-- filter options -->
       <section id="map-options">
@@ -72,8 +72,9 @@
     </footer>
   </div>
 
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script src="node_modules/idb/lib/idb.js"></script>
+  <script src="js/dbhelper.js"></script>
+  <script src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&libraries=places&callback=initMap"></script>
   <!-- Google Maps API key  AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U  -->
 </body>

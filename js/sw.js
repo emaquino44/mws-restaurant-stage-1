@@ -14,7 +14,7 @@ const assets = [
     '/js/dbhelper.js',
     '/js/main.js',
     '/js/restaurant_info.js',
-    '/js/service_worker.js',
+    '/js/sw.js',
     '/img/favicon.ico',
     '/img/logo.svg',
     '/img/1.jpg',

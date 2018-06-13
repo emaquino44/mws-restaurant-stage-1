@@ -126,7 +126,7 @@ section {
 }
 
 #footer p {
-  color: #aaa;
+  color: #fff;
 }
 
 @media screen and (max-width: 450px) {
@@ -443,10 +443,10 @@ nav h1 a {
 
 .restaurant-name {
   width: 100%;
-  color: #ee7f00;
+  color: #000;
   font-family: Arial,sans-serif;
   font-size: 1.8rem;
-  font-weight: 200;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.8rem;
   text-transform: uppercase;
@@ -470,7 +470,7 @@ nav h1 a {
 }
 
 .restaurant-details {
-  background-color: #3397DB;
+  background-color: rgb(35, 104, 150);
   border-bottom: 3px solid #eee;
   color: #fff;
   font-size: 1rem;
