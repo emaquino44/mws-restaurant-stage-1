@@ -13,19 +13,6 @@ document.addEventListener('DOMContentLoaded', event => {
   toggleFilterOptions();
   accessibility();
   registerServiceWorker();
-
-  // const store = "restaurants";
-  // setIndexedDBItem(store, 1, 'first');
-  // getAllIndexedDBItems(store, (err, items) => console.log(items));
-
-  // setIndexedDBItem(store, 1, 'modified');
-  // getAllIndexedDBItems(store, (err, items) => console.log(items));
-  // console.clear();
-  console.log(checkIndexedDbSupport());
-  console.log(checkIndexedDBStorageExists());
-
-  getIndexedDBItemByKey(1, (err, item) => console.log(item));
-
 });
 
 /**
@@ -149,6 +136,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  loadImages();
 }
 
 /**
@@ -169,9 +157,10 @@ createRestaurantHTML = (restaurant) => {
   li.append(picture);
 
   const img = document.createElement('img');
-  img.className = 'restaurant-img';
-  img.src = DBHelper.imageUrlForRestaurant(restaurant);
-  // img.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
+  img.classList.add('restaurant-img');
+  img.classList.add('lazy');
+  img.src = '../img/place-holder.jpg';
+  img.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
   img.setAttribute('alt', `Picture of ${restaurant.name}`);
   picture.append(img);
   
@@ -243,10 +232,29 @@ accessibility = () => {
   document.querySelector('aside a').setAttribute('aria-label', 'Show filtered restaurants');
 }
 
+// lazy loading images to improve preformance - based on https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
+loadImages = () => {
+  let lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
+  if ("IntersectionObserver" in window) {
+    console.log("IntersectionObserver works!");
+    let lazyImageObserver = new IntersectionObserver((images, observer) => {
+      images.forEach(image => {
+        if (image.isIntersecting) {
+          let lazyImage = image.target;
+          lazyImage.src = lazyImage.dataset.src;
+          lazyImage.classList.remove('lazy');
+          lazyImageObserver.unobserve(lazyImage);
+        }
+      });
+    });
+    lazyImages.forEach(lazyImage => lazyImageObserver.observe(lazyImage));
+  }
+}
+
 // Register Service Worker
 registerServiceWorker = () => {
-  if (navigator.serviceWorker) {
-    navigator.serviceWorker.register('/js/sw.js').then( () => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then( () => {
       console.log('Service Worker registered.');
     }).catch( () => {
       console.warn('Service Worker not registered');

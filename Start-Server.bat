@@ -1,2 +1,2 @@
-cd mws-restaurant-stage-1
+%cd%
 python -m http.server 8000
