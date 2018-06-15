@@ -18,7 +18,10 @@ const assets = [
     '/img/10.jpg',
     'img/place-holder.jpg',
     'img/logo.svg',
-    'img/favicon.ico'
+    'img/favicon.ico',
+    'img/icons-192.png',
+    'img/icons-512.png',
+    '/manifest.json'
 ];
 
 self.addEventListener('install', event => {

@@ -2,7 +2,60 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
-## Project Overview: Stage 1
+## Backend server (prerequisites)
+Repository of the backend server can be found here: https://github.com/21010/mws-restaurant-stage-2.git
+
+### How to install backend server?
+Server depends on [node.js LTS Version: v6.11.2 ](https://nodejs.org/en/download/), [npm](https://www.npmjs.com/get-npm), and [sails.js](http://sailsjs.com/)
+Please make sure you have these installed before proceeding forward.
+
+Great, you are ready to proceed forward; awesome!
+
+Let's start with running commands in your terminal, known as command line interface (CLI)
+
+###### Clone the repository
+```Clone server repository
+# git clone https://github.com/21010/mws-restaurant-stage-2.git
+```
+
+###### Install project dependancies
+```Install project dependancies
+# npm i
+```
+###### Install Sails.js globally
+```Install sails global
+# npm i sails -g
+```
+###### Start the server
+```Start server
+# node server
+```
+### You should now have access to your API server environment
+debug: Environment : development
+debug: Port        : 1337
+
+### Usage
+##### Get Restaurants
+```
+curl "http://localhost:1337/restaurants"
+```
+##### Get Restaurants by id
+````
+curl "http://localhost:1337/restaurants/{3}"
+````
+
+### Architecture
+Local server
+- Node.js
+- Sails.js
+
+### Contributors
+
+- [Brandy Lee Camacho - Technical Project Manager](mailto:brandy.camacho@udacity.com)
+- [David Harris - Web Services Lead](mailto:david.harris@udacity.com)
+- [Omar Albeik - Frontend engineer](mailto:omaralbeik@gmail.com)
+
+## Project Overview: Stage 3
 
 For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
 
@@ -25,4 +78,6 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
 
-
+### Who wrote this?
+Hi! My name is Greg and I'm a happy participant of Google Schoolarship program. I'm on Mobile Web Specialist Nanodegree provided by Udacity and Google.
+I love to code, especially Web apps. I live in Poland, have a dog and like to going out with him and friends. I also playing guitar and piano in a spare time.

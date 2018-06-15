@@ -81,10 +81,13 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const row = document.createElement('tr');
 
     const day = document.createElement('td');
+    day.setAttribute('tabindex', '0');
     day.innerHTML = key;
     row.appendChild(day);
 
     const time = document.createElement('td');
+    time.setAttribute('tabindex', '0');
+    time.setAttribute('aria-label', key);
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
 
@@ -121,6 +124,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.setAttribute('role', 'article');
+  li.setAttribute('tabindex', '0');
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
