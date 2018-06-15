@@ -62,11 +62,16 @@ Local server
 ```
 # git clone https://github.com/21010/mws-restaurant-stage-1.git
 ```
-2. if 'dist' directory is missing or is empty run gulp command
+2. Install required modules
+```
+# npm install
+``` 
+
+3. if 'dist' directory is missing or is empty run gulp setup command
 ```
 # gulp setup
 ```
-3. Run gulp serve to run the server
+4. Run gulp serve to run the server
 ```
 # gulp serve
 ```
