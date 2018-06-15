@@ -55,6 +55,26 @@ Local server
 - [David Harris - Web Services Lead](mailto:david.harris@udacity.com)
 - [Omar Albeik - Frontend engineer](mailto:omaralbeik@gmail.com)
 
+
+## Client App
+### How to prepare?
+1. clone the repository:
+```
+# git clone https://github.com/21010/mws-restaurant-stage-1.git
+```
+2. if 'dist' directory is missing or is empty run gulp command
+```
+# gulp setup
+```
+3. Run gulp serve to run the server
+```
+# gulp serve
+```
+
+You can also run 'gulp' command to prepare the app and run the server at once.
+
+
+
 ## Project Overview: Stage 3
 
 For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
