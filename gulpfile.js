@@ -6,7 +6,8 @@ const   del = require('del'),
         uglify = require('gulp-uglify-es').default,
         minifyCSS = require('gulp-csso'),
         pump = require('pump'),
-        concat = require('gulp-concat');
+        concat = require('gulp-concat'),
+        watch = require('gulp-watch');
 
 // run simple web server with gulp
 gulp.task('webserver', () => {
@@ -72,6 +73,16 @@ gulp.task('images', () => {
 // Clean output directory
 gulp.task('clean', () => del(['./dist']));
 
+gulp.task('watch', () => {
+    gulp.watch('./app/*.html', ['html']);
+    gulp.watch('./app/js/*.js', ['js']);
+    gulp.watch('./app/sw.js', ['sw']);
+    gulp.watch('./app/*.json', ['json']);
+    gulp.watch('./app/css/*.css', ['css']);
+    gulp.watch('./app/webfonts', ['webfonts']);
+    gulp.watch('./app/img/*.*', ['images']);
+})
+
 gulp.task('setup', ['html', 'js', 'sw', 'json', 'css', 'webfonts', 'images'])
-gulp.task('serve', ['webserver']);
+gulp.task('serve', ['webserver', 'watch']);
 gulp.task('default', ['setup', 'serve']);

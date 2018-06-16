@@ -16,6 +16,7 @@ window.initMap = () => {
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      fetchReviewsForRestaurant();
     }
   });
 }
@@ -45,6 +46,18 @@ fetchRestaurantFromURL = (callback) => {
   }
 }
 
+fetchReviewsForRestaurant = () => {
+  if (self.reviews) return self.reviews;
+  const id = getParameterByName('id');
+  if (!id) return console.error('No restaurant id in URL');
+  DBHelper.fetchAllRestaurantReviews(id, (error, reviews) => {
+    self.reviews = reviews;
+    if (!reviews) return console.error(error);
+    fillReviewsHTML();
+    return reviews;
+  });
+}
+
 /**
  * Create restaurant HTML and add it to the webpage
  */
@@ -68,7 +81,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  // fillReviewsHTML();
 }
 
 /**
@@ -98,7 +111,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -129,8 +142,9 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
+  const updateDate = new Date(review.updatedAt);
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = `${updateDate.getDate()}/${updateDate.getMonth()}/${updateDate.getFullYear()} ${updateDate.getHours()}:${updateDate.getMinutes()}`;
   li.appendChild(date);
 
   const rating = document.createElement('p');
