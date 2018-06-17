@@ -283,7 +283,6 @@ accessibility = () => {
 loadImages = () => {
   let lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
   if ("IntersectionObserver" in window) {
-    console.log("IntersectionObserver works!");
     let lazyImageObserver = new IntersectionObserver((images, observer) => {
       images.forEach(image => {
         if (image.isIntersecting) {
