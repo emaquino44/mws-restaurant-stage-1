@@ -6,16 +6,21 @@ const   del = require('del'),
         uglify = require('gulp-uglify-es').default,
         minifyCSS = require('gulp-csso'),
         pump = require('pump'),
+        gzip = require('gulp-gzip'),
+        compression = require('compression'),
         concat = require('gulp-concat'),
         watch = require('gulp-watch');
 
 // run simple web server with gulp
 gulp.task('webserver', () => {
     connect.server({
-        port: 8000,
         root: 'dist',
-        liveroad: true
-    });
+        port: 8000,
+        livereload: true
+        // middleware: () => {
+        //     return [ compression() ];
+        // }
+    })
 });
 
 // prepare html files
@@ -33,7 +38,7 @@ gulp.task('js', (cb) => {
     pump([
         gulp.src(['./app/js/*.js']),
         uglify(),
-        gulp.dest('./dist/js/'),
+        gulp.dest('./dist/js/')
     ], cb);
 });
 
@@ -74,13 +79,13 @@ gulp.task('images', () => {
 gulp.task('clean', () => del(['./dist']));
 
 gulp.task('watch', () => {
-    gulp.watch('./app/*.html', ['html']);
-    gulp.watch('./app/js/*.js', ['js']);
-    gulp.watch('./app/sw.js', ['sw']);
-    gulp.watch('./app/*.json', ['json']);
-    gulp.watch('./app/css/*.css', ['css']);
-    gulp.watch('./app/webfonts', ['webfonts']);
-    gulp.watch('./app/img/*.*', ['images']);
+    watch('./app/*.html', ['html']);
+    watch('./app/js/*.js', ['js']);
+    watch('./app/sw.js', ['sw']);
+    watch('./app/*.json', ['json']);
+    watch('./app/css/*.css', ['css']);
+    watch('./app/webfonts', ['webfonts']);
+    watch('./app/img/*.*', ['images']);
 })
 
 gulp.task('setup', ['html', 'js', 'sw', 'json', 'css', 'webfonts', 'images'])

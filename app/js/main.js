@@ -8,6 +8,7 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', event => {
+  renderStaticMapAndMarkers();
   fetchNeighborhoods();
   fetchCuisines();
   toggleFilterOptions();
@@ -76,11 +77,8 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
+ window.initMap = () => {
+  let loc = { lat: 40.722216, lng: -73.987501 };
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
@@ -122,8 +120,10 @@ resetRestaurants = (restaurants) => {
   ul.innerHTML = '';
 
   // Remove all map markers
-  self.markers.forEach(m => m.setMap(null));
-  self.markers = [];
+  if (self.markers) {
+    self.markers.forEach(m => m.setMap(null));
+    self.markers = [];
+  }
   self.restaurants = restaurants;
 }
 
@@ -201,6 +201,53 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+switchMaps = () => {
+  const staticMap = document.getElementById('static-map');
+  const interactiveMap = document.getElementById('map');
+  if (interactiveMap.style.display === 'none') {
+    interactiveMap.style.display = 'block';
+    updateRestaurants();
+    staticMap.style.display = 'none';
+  }
+}
+
+// render static map
+renderStaticMap = (markers) => { 
+  const staticMap = document.getElementById('static-map');
+  const container = getMapContainer();
+  const map = {
+    lat: 40.722216,
+    lng: -73.987501,
+    zoom: 12,
+    scale: false
+  }
+  
+  staticMap.setAttribute('tabindex', '0');
+  staticMap.setAttribute('alt', 'Google Map - locations of restaurants');
+  staticMap.setAttribute('width', container.width);
+  staticMap.setAttribute('height', container.height);
+  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=roadmap&key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&format=jpg&visual_refresh=true${markers.join('')}`);
+}
+
+renderStaticMapAndMarkers = () => {
+  DBHelper.fetchStaticMarkers((error, staticMarkers) => {
+    if (error) return console.error(error);
+    let markers = staticMarkers.map(marker => {
+      return `&markers=size:mid%7Ccolor:0xff0000%7Clabel:${marker.name}%7C${marker.lat},+${marker.lng}`;
+    });
+    renderStaticMap(markers);
+  });
+}
+
+getMapContainer = () => {
+  const mapContainer = document.getElementById('map-container');
+  return {
+    id: mapContainer.getAttribute('id'),
+    height: mapContainer.clientHeight,
+    width: mapContainer.clientWidth
+  }
 }
 
 // Show/hide filter options

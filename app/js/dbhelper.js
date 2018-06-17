@@ -48,6 +48,7 @@ class DBHelper {
     });
   }
 
+  // get restaurant's reviews stored in indexedDB
   static getCachedRestaurantReviews(restaurant_id) {
     let dbPromise = DBHelper.setIndexedDB();
     return dbPromise.then(db => {
@@ -217,6 +218,25 @@ class DBHelper {
     });
   }
 
+  static fetchStaticMarkers(callback) {
+    DBHelper.fetchRestaurants((error, restaurants) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        const staticMarkers = [];
+        restaurants.forEach(restaurant => {
+          staticMarkers.push({
+            name: restaurant.name,
+            lat: restaurant.latlng.lat,
+            lng: restaurant.latlng.lng,
+            url: this.urlForRestaurant(restaurant)
+          })
+        });
+        callback(null, staticMarkers);
+      }
+    });
+  }
+
   /**
    * Restaurant page URL.
    */
@@ -228,7 +248,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}.jpg`);
+    return (`/img/${restaurant.id}.jpg`);
   }
 
   /**
