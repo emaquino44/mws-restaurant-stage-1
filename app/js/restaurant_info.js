@@ -15,10 +15,56 @@ window.initMap = () => {
         scrollwheel: false
       });
       fillBreadcrumb();
+      renderStaticMap(restaurant);
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       fetchReviewsForRestaurant();
     }
   });
+}
+
+switchMaps = () => {
+  const staticMap = document.getElementById('static-map');
+  const interactiveMap = document.getElementById('map');
+  if (interactiveMap.style.display === 'none') {
+    interactiveMap.style.display = 'block';
+    staticMap.style.display = 'none';
+  }
+}
+
+showMap = () => {
+  const button = document.getElementById('showMap');
+  const mapContainer = document.getElementById('map-container');
+  if (mapContainer.style.display === 'none') {
+    mapContainer.style.display = 'block';
+    button.innerHTML = 'Hide Map';
+  } else {
+    mapContainer.style.display = 'none';
+    button.innerHTML = 'Show Map';
+  }
+}
+
+renderStaticMap = (restaurant) => {
+  const staticMap = document.getElementById('static-map');
+  const container = getMapContainer();
+  const map = {
+    lat: restaurant.latlng.lat,
+    lng: restaurant.latlng.lng,
+    zoom: 16,
+    scale: 2
+  }
+  const marker = `&markers=size:mid%7Ccolor:0xff0000%7Clabel:${restaurant.name}%7C${restaurant.latlng.lat},+${restaurant.latlng.lng}`;
+  staticMap.setAttribute('alt', `Google Map - location of ${restaurant.name}`);
+  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=roadmap&key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&format=jpg&visual_refresh=true${marker}`);
+
+}
+
+getMapContainer = () => {
+  const mapContainer = document.getElementById('map-container');
+  return {
+    id: mapContainer.getAttribute('id'),
+    height: mapContainer.clientHeight,
+    width: mapContainer.clientWidth
+  }
 }
 
 /**

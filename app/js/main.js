@@ -90,7 +90,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Update page and map for current restaurants.
  */
-updateRestaurants = () => {
+updateRestaurants = (filter) => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -108,6 +108,7 @@ updateRestaurants = () => {
       fillRestaurantsHTML();
     }
   })
+  if (filter) switchMaps();
 }
 
 /**
@@ -204,30 +205,30 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 }
 
 switchMaps = () => {
+  const mapContainer = document.getElementById('map-container');
   const staticMap = document.getElementById('static-map');
   const interactiveMap = document.getElementById('map');
   if (interactiveMap.style.display === 'none') {
     interactiveMap.style.display = 'block';
-    updateRestaurants();
     staticMap.style.display = 'none';
+    if (mapContainer.onmouseover) mapContainer.removeAttribute('onmouseover');
+    if (mapContainer.onmouseout) mapContainer.removeAttribute('onmouseout');
   }
 }
 
 // render static map
-renderStaticMap = (markers) => { 
+renderStaticMap = (markers) => {
   const staticMap = document.getElementById('static-map');
   const container = getMapContainer();
   const map = {
     lat: 40.722216,
     lng: -73.987501,
     zoom: 12,
-    scale: false
+    scale: 2
   }
   
   staticMap.setAttribute('tabindex', '0');
   staticMap.setAttribute('alt', 'Google Map - locations of restaurants');
-  staticMap.setAttribute('width', container.width);
-  staticMap.setAttribute('height', container.height);
   staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=roadmap&key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&format=jpg&visual_refresh=true${markers.join('')}`);
 }
 
@@ -247,6 +248,24 @@ getMapContainer = () => {
     id: mapContainer.getAttribute('id'),
     height: mapContainer.clientHeight,
     width: mapContainer.clientWidth
+  }
+}
+
+showHoverHint = () => {
+  const map = document.getElementById('map');
+  if (map.style.display !== 'none') return;
+  const hoverHint = document.getElementById('hover-hint');
+  if (hoverHint.style.display === 'none') {
+    hoverHint.style.display = 'flex';
+  }
+}
+
+hideHoverHint = () => {
+  const map = document.getElementById('map');
+  if (map.style.display !== 'none') return;
+  const hoverHint = document.getElementById('hover-hint');
+  if (hoverHint.style.display !== 'none') {
+    hoverHint.style.display = 'none';
   }
 }
 
