@@ -63,6 +63,44 @@ section {
     display: block
 }
 
+#app-status {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 2rem);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+}
+.alert:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f071';
+    color: #f18200;
+    margin-right: 0.5rem;
+}
+.info:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f129';
+    color: #0275d8;
+    margin-right: 0.5rem;
+}
+.error:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f00d';
+    color: #f10000;
+    margin-right: 0.5rem;
+}
+.success:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f058';
+    color: #14af00;
+    margin-right: 0.5rem;
+}
+
 .container {
     width: 100%;
     display: flex;
@@ -415,12 +453,16 @@ nav h1 a {
 }
 
 .restaurant-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0
 }
 
 .restaurant-img {
     width: 100%;
-    height: auto
+    height: auto;
+    object-fit: contain;
 }
 
 .restaurant-description {
@@ -488,7 +530,7 @@ nav h1 a {
     }
     .restaurant-img {
         overflow: hidden;
-        object-fit: contain
+        object-fit: contain;
     }
     .restaurant-description {
         padding: 1rem 0
@@ -682,14 +724,20 @@ nav h1 a {
     border-top: 1px solid #ccc
 }
 
+.inside #restaurant-container hgroup {
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 1rem 0;
+    line-height: 3rem;
+    align-items: center;
+    justify-content: center;
+}
 .inside #restaurant-name {
     font-size: 1.8rem;
     line-height: 3rem;
-    padding: 1rem 0;
-    margin: 0;
-    width: 100%;
     text-align: center;
-    color: #f18200;
+    color: #01447e;
     text-transform: uppercase
 }
 
@@ -715,9 +763,12 @@ nav h1 a {
     content: "\f2e7";
     margin-right: .5rem
 }
-
-.inside #reviews-container p:nth-child(3):before {
-    font-family: "Font Awesome 5 Free";
+.orange,
+.checked {
+    color: #f18200;
+}
+.inside .star:before {
+    font-family: "Font Awesome 5 Solid";
     content: "\f005";
     margin-right: .5rem
 }
@@ -729,25 +780,25 @@ nav h1 a {
 }
 
 .inside #restaurant-hours thead tr th:before {
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Solid";
     content: "\f017";
     margin-right: .5rem
 }
 
-.inside #reviews-container h2:before {
-    font-family: "Font Awesome 5 Free";
+.inside #reviews-container hgroup h3:before {
+    font-family: "Font Awesome 5 Solid";
     content: "\f086";
     margin-right: .5rem
 }
 
 .inside #reviews-container p:first-child:before {
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Solid";
     content: "\f2bd";
     margin-right: .5rem
 }
 
 .inside #reviews-container p:nth-child(2):before {
-    font-family: "Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Solid";
     content: "\f073";
     margin-right: .5rem
 }
@@ -761,11 +812,61 @@ nav h1 a {
     min-width: 100%;
     cursor: pointer;
 }
+.inside #social {
+    padding: 1rem 0;
+    background-color: #f3f3f3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.inside #social #social-status {
+    line-height: 2rem;
+    font-size: 1.4rem;
+    text-align: center;
+    flex-grow: 2;
+}
+.inside #restaurant-favorite {
+    margin-left: 1rem;
+    border: none;
+    background: none;
+    text-align: center;
+    line-height: 3rem;
+    padding: 0 1rem;
+    color: #333;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.inside #restaurant-favorite:hover {
+    color: #f18200;
+}
+
+.inside #restaurant-favorite:before {
+    font-family: "Font Awesome 5 Solid";
+    content: "\f004";
+    margin-right: 0.5rem;
+}
+
 .inside #reviews-container {
     background-color: #f3f3f3;
     padding: 3rem 1rem 1rem 1rem;
     width: calc(100% - 2rem);
     order: 2
+}
+
+.inside #reviews-container hgroup {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    line-height: 2.6rem;
+}
+.inside #reviews-container hgroup h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 auto;
+    text-transform: uppercase;
 }
 
 .inside #reviews-list {
@@ -809,6 +910,105 @@ nav h1 a {
     text-justify: newspaper
 }
 
+.inside #review-form {
+    order: 3;
+    background: #f3f3f3;
+    width: 100%;
+    padding: 2rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center
+}
+
+.inside #review-form h4 {
+    font-size: 1.8rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+.inside #review-form h4:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f27a';
+    margin-right: 0.5rem;
+}
+.inside #review-form form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.inside #review-form form label {
+    padding: 0.5rem 1rem;
+    width: calc(100% - 2rem);
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+}
+.inside #review-form label.star {
+    cursor: pointer;
+    margin: 0;
+}
+
+.inside #review-form input {
+    padding: 1rem 2rem;
+    line-height: 2rem;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    display: block;
+}
+
+.inside #review-form textarea {
+    display: block;
+    padding: 2rem;
+    margin: 0 auto;
+    min-width: 40vw;
+    min-height: 30vh;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+.inside #review-form input:focus,
+.inside #review-form input:hover,
+.inside #review-form textarea:focus,
+.inside #review-form textarea:hover {
+    background: #ffd9ad;
+    color: #000;
+}
+
+.inside #review-form button {
+    padding: 0.5rem 1rem;
+    margin-top: 2rem;
+    line-height: 2rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    background: #01447e;
+    color: #fff;
+}
+.inside #review-form button:before {
+    font-family: 'Font Awesome 5 Solid';
+    content: '\f067';
+    margin-right: 0.5rem;
+}
+.inside #review-form button:focus,
+.inside #review-form button:hover {
+    background: #f18200;
+}
+
+.inside #review-form form input[type=radio] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    display: none;
+}
+
 @media screen and (max-width:500px) {
     .inside #restaurant-image {
         width: 100%;
@@ -844,6 +1044,10 @@ nav h1 a {
         padding: 0;
         margin: .1rem 0;
         order: 1
+    }
+    .inside #review-form input,
+    .inside #review-form textarea {
+        width: 80vw;
     }
 }
 
@@ -896,6 +1100,10 @@ nav h1 a {
     .inside #reviews-list li {
         margin: 1rem;
         width: calc(50% - 2rem)
+    }
+    .inside #review-form input,
+    .inside #review-form textarea {
+        width: 80vw;
     }
 }
 
@@ -959,6 +1167,10 @@ nav h1 a {
     .inside #reviews-list li {
         margin: 1rem;
         width: calc(50% - 2rem)
+    }
+    .inside #review-form input,
+    .inside #review-form textarea {
+        width: 70vw;
     }
 }
 

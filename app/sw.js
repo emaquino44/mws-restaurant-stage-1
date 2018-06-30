@@ -60,3 +60,9 @@ self.addEventListener('fetch', e => {
        })
    );
 });
+
+self.addEventListener('sync', e => {
+    if (e.tag == 'sync-db') e.waitUntil(() => {
+        console.log('sync-db triggered');
+    });
+});

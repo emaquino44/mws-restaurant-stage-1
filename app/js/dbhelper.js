@@ -60,6 +60,18 @@ class DBHelper {
     })
   }
 
+  // add new rewiev
+  static addCachedRestaurantReview(restaurant_id, review) {
+    let dbPromise = DBHelper.setIndexedDB();
+    return dbPromise.then(db => {
+      if (!db) return;
+      let transaction = db.transaction('reviews', 'readwrite');
+      let store = transaction.objectStore('reviews');
+      store.put(review);
+      return store.complete;
+    })
+  }
+
   /**
    * Fetch all restaurants.
    */

@@ -140,7 +140,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   loadImages();
 }
 
-/**
+/** 
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
@@ -160,6 +160,7 @@ createRestaurantHTML = (restaurant) => {
   const img = document.createElement('img');
   img.classList.add('restaurant-img');
   img.classList.add('lazy');
+  img.setAttribute('style', 'width: 100%; height: 100%;');
   img.src = '../img/place-holder.jpg';
   img.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
   img.setAttribute('alt', `Picture of ${restaurant.name}`);
@@ -224,12 +225,15 @@ renderStaticMap = (markers) => {
     lat: 40.722216,
     lng: -73.987501,
     zoom: 12,
-    scale: 2
+    scale: 2,
+    type: 'roadmap',
+    format: 'jpg',
+    api: 'AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U'
   }
   
   staticMap.setAttribute('tabindex', '0');
   staticMap.setAttribute('alt', 'Google Map - locations of restaurants');
-  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=roadmap&key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&format=jpg&visual_refresh=true${markers.join('')}`);
+  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${Math.round(container.width / 2)}x${Math.round(container.height / 2)}&maptype=${map.type}&key=${map.api}&format=${map.format}&visual_refresh=true${markers.join('')}`);
 }
 
 renderStaticMapAndMarkers = () => {
@@ -307,6 +311,7 @@ loadImages = () => {
         if (image.isIntersecting) {
           let lazyImage = image.target;
           lazyImage.src = lazyImage.dataset.src;
+          lazyImage.removeAttribute('style');
           lazyImage.classList.remove('lazy');
           lazyImageObserver.unobserve(lazyImage);
         }
@@ -319,10 +324,8 @@ loadImages = () => {
 // Register Service Worker
 registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then( () => {
-      console.log('Service Worker registered.');
-    }).catch( () => {
-      console.warn('Service Worker not registered');
-    });
+    navigator.serviceWorker.register('/sw.js')
+      .then( () => console.log('Service Worker registered.'))
+      .catch( () => console.warn('Service Worker not registered'));
   }
 }

@@ -59,7 +59,9 @@
     <main id="maincontent">
       <!-- Beginning restaurant -->
       <section id="restaurant-container">
-        <h2 id="restaurant-name"></h2>
+        <hgroup>
+          <h2 id="restaurant-name"></h2>
+        </hgroup>
         <picture id="restaurant-image">
           <img id="restaurant-img">
         </picture>
@@ -77,26 +79,59 @@
         </table>
       </section>
       <!-- end restaurant -->
-      <nav id="user-options">
-        <button id="addReview" onclick="addReview()">Add Review</button>
-        <button id="setAsFavourite" onclick="setAsFavourite()">Set as favourite</button>
-        <button id="showMap" onclick="showMap()">Show Map</button>
-        </ul>
-      </nav>
       <!-- Beginning map -->
       <section id="map-container">
+        <p id="hover-hint" onclick="switchMaps()" style="display:none"><span>click to enable interactive mode</span></p>
         <img id="static-map" tabindex="0" aria-label="map of restaurans, click to enable interactive mode" onclick="switchMaps()">
-        <div id="map" tabindex="0" role="application" style="display: none";></div>
+        <div id="map" tabindex="0" role="application" style="display: none"></div>
       </section>
       <!-- End map -->
+      <section id="social">
+        <p id="social-status">This restaurant is marked as favorite!</p>
+        <button id="restaurant-favorite" class="" onclick="setFavorite()" aria-label="set restaurant as favourite">Set as favorite</button>
+      </section>
       <!-- Beginning reviews -->
       <section id="reviews-container">
+        <hgroup>
+          <h3>Reviews</h3>
+        </hgroup>
         <ul id="reviews-list"></ul>
+      </section>
+      <section id="review-form">
+        <h4>New Review</h4>
+        <form>
+          <label id="user-name">Name
+            <input name="user-name" placeholder="enter your name" required>
+          </label>
+          <label id="user-rating">Rating
+            <div aria-label="select your rating">
+              <label class="star">
+                <input name="user-rating" type="radio" value="1">
+              </label>
+              <label class="star">
+                <input name="user-rating" type="radio" value="2">
+              </label>
+              <label class="star">
+                <input name="user-rating" type="radio" value="3">
+              </label>
+              <label class="star">
+                <input name="user-rating" type="radio" value="4">
+              </label>
+              <label class="star">
+                <input name="user-rating" type="radio" value="5">
+              </label>
+            </div>
+          </label>
+          <label id="user-review">Your review
+            <textarea name="user-review" placeholder="add your comments..." required></textarea>
+          </label>
+          <button>Add Review</button>
+        </form>
       </section>
       <!-- End reviews -->
     </main>
     <!-- End main -->
-
+    <div id="app-status" class="info" style="display:none; transition: all 2s ease-in-out;">Test message</div>
     <!-- Beginning footer -->
     <footer id="footer">
       <p>Copyrights © 2017</p>
