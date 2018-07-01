@@ -19,7 +19,7 @@ class DBHelper {
         db.createObjectStore('restaurants', { keyPath: 'id' });
       }
       if (!db.objectStoreNames.contains('reviews')) {
-        const reviews = db.createObjectStore('reviews', { keyPath: 'id' });
+        const reviews = db.createObjectStore('reviews', { autoIncrement: true });
         reviews.createIndex('byRestaurant', 'restaurant_id', {unique: false});
         reviews.createIndex('byAuthorName', 'name', {unique: false});
       }
@@ -46,6 +46,18 @@ class DBHelper {
       let store = transaction.objectStore('restaurants')
       return store.get(Number(id));
     });
+  }
+
+  static updateCachedRestaurant(restaurant, data) {
+    restaurant[data.key] = data.value;
+    let dbPromise = DBHelper.setIndexedDB();
+    return dbPromise.then(db => {
+      if (!db) return;
+        let transaction = db.transaction('restaurants', 'readwrite');
+        let store = transaction.objectStore('restaurants');
+        store.put(restaurant);
+        return store.complete;
+    })
   }
 
   // get restaurant's reviews stored in indexedDB
@@ -113,6 +125,12 @@ class DBHelper {
     });
   }
 
+  static setRestaurantFavorite(id, state, callback) {
+    fetch(`${DBHelper.DATABASE_URL}/${Number(id)}/?is_favorite=${state}`, {method: 'put'})
+      .then(response => callback(null, response))
+      .catch(error => callback(error, null));
+  }
+
   static fetchAllRestaurantReviews(restaurant_id, callback) {
     DBHelper.getCachedRestaurantReviews(restaurant_id).then(cachedReviews => {
       if (cachedReviews > 0) return callback(null, cachedReviews);
@@ -130,6 +148,15 @@ class DBHelper {
         })
         .catch(error => callback(error, null));
     })
+  }
+
+  static addRestaurantReview(review, callback) {
+    fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
+      method: 'post',
+      body: review
+    })
+      .then(response => callback(null, response))
+      .catch(error => callback(error, null))
   }
 
   //  static fetchAllRestaurantReviews(restaurant_id, callback) {

@@ -153,11 +153,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.is_favorite) {
     button.classList.add('isfavorite');
     button.innerHTML = 'Remove from favorites';
-    status.innerHTML = 'This restaurant is one of your favorites!';
+    status.innerHTML = 'Restaurant marked as favorite.';
+    status.classList.add('isfavorite');
+    notifyUser('This restaurant is one of your favorites', 'info');
   } else {
     button.classList.remove('isfavorite');
     button.innerHTML = 'Add to favorites';
     status.innerHTML = '';
+    status.classList.remove('isfavorite');
   }
 
 }
@@ -270,10 +273,12 @@ initRating = () => {
   const form = document.querySelector('form');
   form.addEventListener('submit', e => addReview(e));
   const container = document.querySelector('#user-rating div');
-  container.addEventListener('mouseout', e => clearRating());
+  container.addEventListener('mouseout', () => clearRating());
+  container.addEventListener('focusout', () => clearRating());
   const items = document.querySelectorAll('label.star');
   items.forEach(item => {
     item.addEventListener('mouseover', () => fillRating(item.firstChild.value));
+    item.addEventListener('focusin', () => fillRating(item.firstChild.value));
     item.addEventListener('click', () => setRating(item.firstChild.value));
     item.addEventListener('keypress', e => {
       e.preventDefault();
@@ -313,37 +318,58 @@ setRating = (val) => {
   items[Number(val)-1].firstChild.setAttribute('checked', 'checked');
 }
 
-setRatingByKey = (val) => {
-
-}
-
 addReview = (e, restaurant = self.restaurant) => {
   e.preventDefault();
 
   const review = {
-    name : document.querySelector('input[name=user-name]').value,
+    name : secureInput(document.querySelector('input[name=user-name]').value),
     rating : Number(document.querySelector('input[name=user-rating][checked=checked]').value),
-    comments : document.querySelector('textarea[name=user-review]').value,
-    createdAt : getReviewDate(),
-    updatedAt : getReviewDate(),
+    comments : secureInput(document.querySelector('textarea[name=user-review]').value),
     restaurant_id : restaurant.id,
-    id : null
+    createdAt : Date.parse(new Date),
+    updatedAt : Date.parse(new Date)
   }
-
-  const json = JSON.stringify(review);
-  
-  DBHelper.addCachedRestaurantReview(restaurant.id, json);
-
-  console.log(json);
+  DBHelper.addCachedRestaurantReview(restaurant.id, review).then(res => {
+    const ul = document.getElementById('reviews-list');
+    ul.appendChild(createReviewHTML(review));
+    clearReviewForm();
+  });
 }
 
-getReviewDate = () => {
-  return Date.parse(new Date);
+secureInput = (value) => {
+  return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-setFavorite = () => {
-  console.log('set as favorite function');
-  notifyUser('Restaurant set as favorite', 'info');
+clearReviewForm = () => {
+  document.querySelector('input[name=user-name]').value = '';
+  let labels = document.querySelectorAll('label.star')
+  labels.forEach(label => {
+    label.classList.remove('checked')
+    label.removeAttribute('checked');
+  });
+  document.querySelector('textarea[name=user-review').value = '';
+};
+
+setFavorite = (e, restaurant = self.restaurant) => {
+  const button = document.getElementById('restaurant-favorite');
+  const status = document.getElementById('social-status');
+  const data = {key: 'is_favorite', value: false};
+  if (restaurant.is_favorite) {
+    data.value = false;
+    button.innerHTML = 'Add to favorites';
+    button.setAttribute('aria-label', 'Add to favorites');
+    status.classList.remove('isfavorite');
+    status.innerHTML = '';
+    notifyUser('Restaurant removed from favorites', 'info');
+  } else {
+    data.value = true;
+    button.innerHTML = 'Remove from favorites';
+    button.setAttribute('aria-label', 'Remove from favorites');
+    status.classList.add('isfavorite');
+    status.innerHTML = 'Restaurant marked as favorite.';
+    notifyUser('Restaurant set as favorite', 'info');
+  }
+  DBHelper.updateCachedRestaurant(restaurant, data);
 }
 
 notifyUser = (message, type) => {
