@@ -4,6 +4,7 @@ let map;
 document.addEventListener('DOMContentLoaded', event => {
   initHoverHint();
   initRating();
+  watchOffline();
 });
 
 /**
@@ -23,6 +24,7 @@ window.initMap = () => {
       renderStaticMap(restaurant);
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       fetchReviewsForRestaurant();
+      fetchLocalReviewsForRestaurant();
     }
   });
 }
@@ -102,10 +104,7 @@ fetchRestaurantFromURL = (callback) => {
   } else {
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
+      if (!restaurant) return console.error(error);
       fillRestaurantHTML();
       callback(null, restaurant)
     });
@@ -122,6 +121,12 @@ fetchReviewsForRestaurant = () => {
     fillReviewsHTML();
     return reviews;
   });
+}
+
+fetchLocalReviewsForRestaurant = () => {
+  DBHelper.getLocalStoredReviews()
+    .then(reviews => fillReviewsHTML(reviews))
+    .catch(error => console.log(error));
 }
 
 /**
@@ -219,10 +224,8 @@ createReviewHTML = (review) => {
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
-
-  const updateDate = new Date(review.updatedAt);
   const date = document.createElement('p');
-  date.innerHTML = `${updateDate.getDate()}/${updateDate.getMonth()}/${updateDate.getFullYear()} ${updateDate.getHours()}:${updateDate.getMinutes()}`;
+  date.innerHTML = formatDate(new Date(review.updatedAt));
   li.appendChild(date);
 
   const ratingContainer = document.createElement('p');
@@ -240,6 +243,15 @@ createReviewHTML = (review) => {
   li.appendChild(comments);
 
   return li;
+}
+
+formatDate = (date) => {
+  let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let hour = date.getHours();
+  let minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+  return `${day}/${month}/${year} ${hour}:${minutes}`;
 }
 
 /**
@@ -325,15 +337,42 @@ addReview = (e, restaurant = self.restaurant) => {
     name : secureInput(document.querySelector('input[name=user-name]').value),
     rating : Number(document.querySelector('input[name=user-rating][checked=checked]').value),
     comments : secureInput(document.querySelector('textarea[name=user-review]').value),
-    restaurant_id : restaurant.id,
-    createdAt : Date.parse(new Date),
-    updatedAt : Date.parse(new Date)
+    restaurant_id : restaurant.id
   }
-  DBHelper.addCachedRestaurantReview(restaurant.id, review).then(res => {
-    const ul = document.getElementById('reviews-list');
-    ul.appendChild(createReviewHTML(review));
-    clearReviewForm();
-  });
+  // try to add review to database
+  // if possible, fetch new review and store in indexeddb (reviews) and render new review for the client
+  // if not possible, store new review in indexeddb (local-reviews) set eventlistener for online event 
+  // to send new reviews to the server as soon as possible and render new review for the client
+
+  DBHelper.addRestaurantReview(review, (error, response) => {
+    if (error) {
+      DBHelper.addLocalStoredReview(review)
+        .then(() => {
+          if (!navigator.onLine) {
+            window.addEventListener('online', e => {
+              console.log('online again!');
+              DBHelper.getLocalStoredReviews(true)
+                .then(localReviews => DBHelper.syncReviews(localReviews))
+                .catch(error => console.log(error))
+            })
+          } else {
+            console.log('addCachedRestaurantReview-else')
+            return console.log(error);
+          }
+        })
+    } else {
+      console.log(response);
+      DBHelper.updateCachedReviews(response)
+        .then(() => console.log('cachedReviews updated'))
+        .catch(err => console.log(err));
+    }
+  })
+
+  // render review for the client
+  clearReviewForm();
+  const date = Date.parse(new Date);
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(createReviewHTML({...review, createdAt: date, updatedAt: date}));
 }
 
 secureInput = (value) => {
@@ -380,4 +419,17 @@ notifyUser = (message, type) => {
   setTimeout(() => {
     messageBox.style.display = 'none';
   }, 3000);
+}
+
+watchOffline = () => {
+  if (!navigator.onLine) {
+    window.addEventListener('online', e => {
+    
+      // sync reviews
+      DBHelper.getLocalStoredReviews(true)
+      .then(localReviews => DBHelper.syncReviews(localReviews))
+      .catch(error => console.log(error));
+    
+    })
+  }
 }
