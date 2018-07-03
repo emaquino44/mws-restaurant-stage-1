@@ -1,15 +1,14 @@
 let restaurant;
 let map;
 
+// run funcions when content is loaded
 document.addEventListener('DOMContentLoaded', event => {
   initHoverHint();
   initRating();
   watchOffline();
 });
 
-/**
- * Initialize Google map, called from HTML.
- */
+// Initialize Google map, called from HTML.
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
@@ -29,6 +28,7 @@ window.initMap = () => {
   });
 }
 
+// switch static map to interactive map
 switchMaps = () => {
   const mapContainer = document.getElementById('map-container');
   const staticMap = document.getElementById('static-map');
@@ -41,6 +41,7 @@ switchMaps = () => {
   }
 }
 
+// render static map
 renderStaticMap = (restaurant) => {
   const staticMap = document.getElementById('static-map');
   const container = getMapContainer();
@@ -48,14 +49,18 @@ renderStaticMap = (restaurant) => {
     lat: restaurant.latlng.lat,
     lng: restaurant.latlng.lng,
     zoom: 16,
-    scale: 2
+    scale: 2,
+    type: 'roadmap',
+    api: 'AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U',
+    format: 'jpg'
   }
   const marker = `&markers=size:mid%7Ccolor:0xff0000%7Clabel:${restaurant.name}%7C${restaurant.latlng.lat},+${restaurant.latlng.lng}`;
   staticMap.setAttribute('alt', `Google Map - location of ${restaurant.name}`);
-  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=roadmap&key=AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U&format=jpg&visual_refresh=true${marker}`);
+  staticMap.setAttribute('src', `https://maps.googleapis.com/maps/api/staticmap?center=${map.lat},+${map.lng}&zoom=${map.zoom}&scale=${map.scale}&size=${container.width}x${container.height}&maptype=${map.type}&key=${map.api}&format=${map.format}&visual_refresh=true${marker}`);
 
 }
 
+// get details about map container inluding id and dimensions
 getMapContainer = () => {
   const mapContainer = document.getElementById('map-container');
   return {
@@ -65,6 +70,7 @@ getMapContainer = () => {
   }
 }
 
+// show hover hint for map switching
 showHoverHint = () => {
   const map = document.getElementById('map');
   if (map.style.display !== 'none') return;
@@ -74,6 +80,7 @@ showHoverHint = () => {
   }
 }
 
+// hide hover hint for map switching
 hideHoverHint = () => {
   const map = document.getElementById('map');
   if (map.style.display !== 'none') return;
@@ -83,15 +90,14 @@ hideHoverHint = () => {
   }
 }
 
+// initiate hover hints (static map)
 initHoverHint = () => {
   const container = document.getElementById('map-container');
   container.setAttribute('onmouseover', 'showHoverHint()');
   container.setAttribute('onmouseout', 'hideHoverHint()');
 }
 
-/**
- * Get current restaurant from page URL.
- */
+// Get current restaurant from page URL.
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
@@ -111,6 +117,7 @@ fetchRestaurantFromURL = (callback) => {
   }
 }
 
+// fetch all reviews from the server and render the content
 fetchReviewsForRestaurant = () => {
   if (self.reviews) return self.reviews;
   const id = getParameterByName('id');
@@ -123,15 +130,14 @@ fetchReviewsForRestaurant = () => {
   });
 }
 
+// get all reviews stored locally and render content
 fetchLocalReviewsForRestaurant = () => {
   DBHelper.getLocalStoredReviews()
     .then(reviews => fillReviewsHTML(reviews))
     .catch(error => console.log(error));
 }
 
-/**
- * Create restaurant HTML and add it to the webpage
- */
+// Create restaurant HTML and add it to the webpage
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
@@ -155,7 +161,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   // fill favorite status
   const button = document.getElementById('restaurant-favorite');
   const status = document.getElementById('social-status');
-  if (restaurant.is_favorite) {
+  if (restaurant.is_favorite === 'true') {
     button.classList.add('isfavorite');
     button.innerHTML = 'Remove from favorites';
     status.innerHTML = 'Restaurant marked as favorite.';
@@ -170,36 +176,28 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
 }
 
-/**
- * Create restaurant operating hours HTML table and add it to the webpage.
- */
+// Create restaurant operating hours HTML table and add it to the webpage.
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   // const hours = document.getElementById('restaurant-hours');
   const hours = document.querySelector('#restaurant-hours tbody');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
-
     const day = document.createElement('td');
     day.setAttribute('tabindex', '0');
     day.innerHTML = key;
     row.appendChild(day);
-
     const time = document.createElement('td');
     time.setAttribute('tabindex', '0');
     time.setAttribute('aria-label', key);
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
-
     hours.appendChild(row);
   }
 }
 
-/**
- * Create all reviews HTML and add them to the webpage.
- */
+// Create all reviews HTML and add them to the webpage.
 fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
-
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
@@ -214,9 +212,7 @@ fillReviewsHTML = (reviews = self.reviews) => {
   container.appendChild(ul);
 }
 
-/**
- * Create review HTML and add it to the webpage.
- */
+// Create review HTML and add it to the webpage.
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.setAttribute('role', 'article');
@@ -245,6 +241,7 @@ createReviewHTML = (review) => {
   return li;
 }
 
+// format date as day/month/year hours:minutes
 formatDate = (date) => {
   let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
   let month = date.getMonth() + 1;
@@ -254,9 +251,7 @@ formatDate = (date) => {
   return `${day}/${month}/${year} ${hour}:${minutes}`;
 }
 
-/**
- * Add restaurant name to the breadcrumb navigation menu
- */
+// Add restaurant name to the breadcrumb navigation menu
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
@@ -265,9 +260,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   breadcrumb.appendChild(li);
 }
 
-/**
- * Get a parameter by name from page URL.
- */
+// Get a parameter by name from page URL.
 getParameterByName = (name, url) => {
   if (!url)
     url = window.location.href;
@@ -281,6 +274,7 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+// initiate rating field (stars)
 initRating = () => {
   const form = document.querySelector('form');
   form.addEventListener('submit', e => addReview(e));
@@ -301,6 +295,7 @@ initRating = () => {
   })
 }
 
+// fill rating star (style) by the given value
 fillRating = (val) => {
   const items = document.querySelectorAll('label.star');
   items.forEach(item => {
@@ -312,11 +307,13 @@ fillRating = (val) => {
   })
 }
 
+// remove rating (it's for mouseover events)
 clearRating = () => {
   const items = document.querySelectorAll('label.star');
   items.forEach(item => item.classList.remove('orange'));
 }
 
+// set rating input value (rating) by the given value
 setRating = (val) => {
   const items = document.querySelectorAll('label.star');
   items.forEach(item => {
@@ -330,43 +327,32 @@ setRating = (val) => {
   items[Number(val)-1].firstChild.setAttribute('checked', 'checked');
 }
 
+// add new review (put data to database and render it on the screen)
 addReview = (e, restaurant = self.restaurant) => {
   e.preventDefault();
 
+  // set new review object
   const review = {
     name : secureInput(document.querySelector('input[name=user-name]').value),
     rating : Number(document.querySelector('input[name=user-rating][checked=checked]').value),
     comments : secureInput(document.querySelector('textarea[name=user-review]').value),
     restaurant_id : restaurant.id
   }
-  // try to add review to database
-  // if possible, fetch new review and store in indexeddb (reviews) and render new review for the client
-  // if not possible, store new review in indexeddb (local-reviews) set eventlistener for online event 
-  // to send new reviews to the server as soon as possible and render new review for the client
-
+  
+  // add new review to the server or indexedDB if error
   DBHelper.addRestaurantReview(review, (error, response) => {
     if (error) {
-      DBHelper.addLocalStoredReview(review)
-        .then(() => {
-          if (!navigator.onLine) {
-            window.addEventListener('online', e => {
-              console.log('online again!');
-              DBHelper.getLocalStoredReviews(true)
-                .then(localReviews => DBHelper.syncReviews(localReviews))
-                .catch(error => console.log(error))
-            })
-          } else {
-            console.log('addCachedRestaurantReview-else')
-            return console.log(error);
-          }
-        })
+      // if review is not put on the server, add it to local (cached) DB
+      DBHelper.addLocalStoredReview(review).then(() => {
+        notifyUser('Internet connection not detected. New review stored locally.', 'alert');
+      });
     } else {
-      console.log(response);
+      // update cached reviews for offline usage
       DBHelper.updateCachedReviews(response)
-        .then(() => console.log('cachedReviews updated'))
+        .then(() => notifyUser('New review added', 'success'))
         .catch(err => console.log(err));
     }
-  })
+  });
 
   // render review for the client
   clearReviewForm();
@@ -375,10 +361,12 @@ addReview = (e, restaurant = self.restaurant) => {
   ul.appendChild(createReviewHTML({...review, createdAt: date, updatedAt: date}));
 }
 
+// replace html to text in inputed values to secure the form
 secureInput = (value) => {
   return value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+// clear the form 
 clearReviewForm = () => {
   document.querySelector('input[name=user-name]').value = '';
   let labels = document.querySelectorAll('label.star')
@@ -389,28 +377,40 @@ clearReviewForm = () => {
   document.querySelector('textarea[name=user-review').value = '';
 };
 
+// set or unset restaurant as favorite
 setFavorite = (e, restaurant = self.restaurant) => {
   const button = document.getElementById('restaurant-favorite');
   const status = document.getElementById('social-status');
-  const data = {key: 'is_favorite', value: false};
-  if (restaurant.is_favorite) {
-    data.value = false;
+  const data = {key: 'is_favorite', value: 'false'};
+  if (restaurant.is_favorite === 'true') {
+    data.value = 'false';
     button.innerHTML = 'Add to favorites';
     button.setAttribute('aria-label', 'Add to favorites');
     status.classList.remove('isfavorite');
     status.innerHTML = '';
-    notifyUser('Restaurant removed from favorites', 'info');
+    notifyUser('Restaurant removed from favorites', 'success');
   } else {
-    data.value = true;
+    data.value = 'true';
     button.innerHTML = 'Remove from favorites';
     button.setAttribute('aria-label', 'Remove from favorites');
     status.classList.add('isfavorite');
-    status.innerHTML = 'Restaurant marked as favorite.';
-    notifyUser('Restaurant set as favorite', 'info');
+    status.innerHTML = 'Restaurant added to favorites.';
+    notifyUser('Restaurant added to favorites', 'success');
   }
   DBHelper.updateCachedRestaurant(restaurant, data);
+  DBHelper.setRestaurantFavorite(restaurant.id, data.value, (error, response) => {
+    if (error) {
+      DBHelper.setLocalRestaurantFavorite(restaurant.id, data.value)
+        .then(res => console.log(res))
+        .catch(error => console.log(error));
+    } else {
+      console.log(response);
+    }
+
+  })
 }
 
+// pops up message for the user
 notifyUser = (message, type) => {
   const messageBox = document.getElementById('app-status');
   messageBox.innerHTML = message;
@@ -421,15 +421,25 @@ notifyUser = (message, type) => {
   }, 3000);
 }
 
+// monitor if the user is online
 watchOffline = () => {
-  if (!navigator.onLine) {
     window.addEventListener('online', e => {
-    
+      // notify the user
+      notifyUser('You are online again. Syncing data...', 'info')
+      
       // sync reviews
       DBHelper.getLocalStoredReviews(true)
       .then(localReviews => DBHelper.syncReviews(localReviews))
       .catch(error => console.log(error));
     
+      // sync restarants
+      DBHelper.getLocalRestaurantFavorite()
+      .then(data => DBHelper.syncFavorites(data))
+      .catch(error => console.log(error));
+
+    });
+    window.addEventListener('offline', e => {
+      notifyUser('No Internet connection detected', 'alert');
     })
-  }
+
 }

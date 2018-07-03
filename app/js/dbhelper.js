@@ -75,19 +75,6 @@ class DBHelper {
     })
   }
 
-  // // add new rewiev
-  // static addCachedRestaurantReview(restaurant_id, review) {
-  //   let dbPromise = DBHelper.setIndexedDB();
-  //   return dbPromise.then(db => {
-  //     if (!db) return;
-  //     let transaction = db.transaction('reviews', 'readwrite');
-  //     let store = transaction.objectStore('reviews');
-  //     store.put(review);
-  //     DBHelper.setLocalStorage('addReviewUpdate', Date.parse(new Date));
-  //     return store.complete;
-  //   })
-  // }
-
    // add new rewiev
    static addLocalStoredReview(review) {
      let dbPromise = DBHelper.setIndexedDB();
@@ -100,7 +87,7 @@ class DBHelper {
        return store.complete;
      })
    }
-
+   // get reviews stored only in local (cached) DB
    static getLocalStoredReviews(clean = false) {
     let dbPromise = DBHelper.setIndexedDB();
     return dbPromise.then(db => {
@@ -125,6 +112,7 @@ class DBHelper {
     })
   }
 
+  // 
   static syncReviews(reviews) {
     reviews.forEach(review => {
       DBHelper.addRestaurantReview(review, (error, response) => {
@@ -136,28 +124,7 @@ class DBHelper {
     })
   }
 
-  /**
-   * Fetch all restaurants.
-   */
-  // static fetchRestaurants(callback) {
-  //   DBHelper.getAllCachedRestaurants().then(cachedRestaurants => {
-  //     if (cachedRestaurants.length > 0) return callback(null, cachedRestaurants);
-  //     fetch(`${DBHelper.DATABASE_URL}/restaurants`)
-  //       .then(response => response.json())
-  //       .then(restaurants => {
-  //         let dbPromise = DBHelper.setIndexedDB();
-  //         dbPromise.then(db => {
-  //           if (!db) return callback(null, restaurants);
-  //           let transaction = db.transaction('restaurants', 'readwrite');
-  //           let store = transaction.objectStore('restaurants');
-  //           restaurants.forEach(restaurant => store.put(restaurant));
-  //         });  
-  //         callback(null, restaurants)
-  //       })
-  //       .catch(error => callback(error, null));
-  //   })
-  // }
-  
+  // Fetch all restaurants.
   static fetchRestaurants(callback) {
     fetch(`${DBHelper.DATABASE_URL}/restaurants`)
       .then(response => response.json())
@@ -182,26 +149,6 @@ class DBHelper {
   }
 
   // get restaurant by id from the server
-  // static fetchRestaurantById(id, callback) {
-  //   DBHelper.getCachedRestaurant(id).then(cachedRestaurant => {
-  //     if (cachedRestaurant) return callback(null, cachedRestaurant);
-  //     fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}`)
-  //       .then(response => response.json())
-  //       .then(restaurant => {
-  //         let dbPromise = DBHelper.setIndexedDB();
-  //         dbPromise.then(db => {
-  //           if (!db) return callback(null, restaurant);
-  //           let transaction = db.transaction('restaurants', 'readwrite');
-  //           let store = transaction.objectStore('restaurants');
-  //           store.put(restaurant);
-  //         })
-  //         callback(null, restaurant);
-  //       })
-  //       .catch(error => callback(error, null));
-  //   });
-  // }
-
-  // get restaurant by id from the server
   static fetchRestaurantById(id, callback) {
    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}`)
     .then(response => response.json())
@@ -216,7 +163,6 @@ class DBHelper {
       callback(null, restaurant);
     })
     .catch(error => {
-      console.log(error);
       DBHelper.getCachedRestaurant(id)
         .then(cachedRestaurant => {
           if (cachedRestaurant) return callback(null, cachedRestaurant)
@@ -227,30 +173,44 @@ class DBHelper {
 
   // set is_favorite for the restaurant
   static setRestaurantFavorite(id, state, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/${Number(id)}/?is_favorite=${state}`, {method: 'put'})
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${Number(id)}/?is_favorite=${state}`, {method: 'put'})
       .then(response => callback(null, response))
       .catch(error => callback(error, null));
   }
 
-   // get all restaurant's reviews
-  //  static fetchAllRestaurantReviews(restaurant_id, callback) {
-  //    DBHelper.getCachedRestaurantReviews(restaurant_id).then(cachedReviews => {
-  //      if (cachedReviews > 0) return callback(null, cachedReviews);
-  //      fetch(`${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${restaurant_id}`)
-  //        .then(response => response.json())
-  //        .then(reviews => {
-  //          let dbPromise = DBHelper.setIndexedDB();
-  //          dbPromise.then(db => {
-  //            if (!db) return callback(null, reviews);
-  //            let transaction = db.transaction('reviews', 'readwrite');
-  //            let store = transaction.objectStore('reviews');
-  //            reviews.forEach(review => store.put(review));
-  //          })
-  //          callback(null, reviews)
-  //        })
-  //        .catch(error => callback(error, null));
-  //    })
-  //  }
+  static syncFavorites(data) {
+    data.forEach(entry => {
+      DBHelper.setRestaurantFavorite(entry.id, entry.is_favorite, (error, response) => {
+        if (error) return console.log(error);
+        console.log(response);
+      });
+    });
+  }
+
+  // store data about favorite restaurants in local (cached) DB
+  static setLocalRestaurantFavorite(id, state) {
+    let dbPromise = DBHelper.setIndexedDB();
+    const data = { id: id, is_favorite: state};
+    return dbPromise.then(db => {
+      if (!db) return;
+      let transaction = db.transaction('local-restaurants', 'readwrite');
+      let store = transaction.objectStore('local-restaurants');
+      store.put(data);
+      return store.complete;
+    })
+  }
+
+  static getLocalRestaurantFavorite() {
+    let dbPromise = DBHelper.setIndexedDB();
+    return dbPromise.then(db => {
+      if (!db) return;
+      let transaction = db.transaction('local-restaurants', 'readwrite');
+      let store = transaction.objectStore('local-restaurants');
+      let data = store.getAll();
+      store.clear();
+      return data;
+    })
+  }
 
   // get all restaurant's reviews
   static fetchAllRestaurantReviews(restaurant_id, callback) {
