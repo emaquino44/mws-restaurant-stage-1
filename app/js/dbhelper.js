@@ -112,7 +112,7 @@ class DBHelper {
     })
   }
 
-  // 
+  // sync data stored locally with the server
   static syncReviews(reviews) {
     reviews.forEach(review => {
       DBHelper.addRestaurantReview(review, (error, response) => {
@@ -178,6 +178,7 @@ class DBHelper {
       .catch(error => callback(error, null));
   }
 
+  // sync information about favorites restaurants stored locally with the server
   static syncFavorites(data) {
     data.forEach(entry => {
       DBHelper.setRestaurantFavorite(entry.id, entry.is_favorite, (error, response) => {
@@ -199,7 +200,7 @@ class DBHelper {
       return store.complete;
     })
   }
-
+  // get information about modified
   static getLocalRestaurantFavorite() {
     let dbPromise = DBHelper.setIndexedDB();
     return dbPromise.then(db => {

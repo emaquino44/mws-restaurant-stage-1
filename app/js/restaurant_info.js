@@ -160,18 +160,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   
   // fill favorite status
   const button = document.getElementById('restaurant-favorite');
-  const status = document.getElementById('social-status');
   if (restaurant.is_favorite === 'true') {
     button.classList.add('isfavorite');
     button.innerHTML = 'Remove from favorites';
-    status.innerHTML = 'Restaurant marked as favorite.';
-    status.classList.add('isfavorite');
     notifyUser('This restaurant is one of your favorites', 'info');
   } else {
     button.classList.remove('isfavorite');
     button.innerHTML = 'Add to favorites';
-    status.innerHTML = '';
-    status.classList.remove('isfavorite');
   }
 
 }
@@ -380,21 +375,18 @@ clearReviewForm = () => {
 // set or unset restaurant as favorite
 setFavorite = (e, restaurant = self.restaurant) => {
   const button = document.getElementById('restaurant-favorite');
-  const status = document.getElementById('social-status');
   const data = {key: 'is_favorite', value: 'false'};
   if (restaurant.is_favorite === 'true') {
     data.value = 'false';
     button.innerHTML = 'Add to favorites';
     button.setAttribute('aria-label', 'Add to favorites');
-    status.classList.remove('isfavorite');
-    status.innerHTML = '';
+    button.classList.remove('isfavorite');
     notifyUser('Restaurant removed from favorites', 'success');
   } else {
     data.value = 'true';
     button.innerHTML = 'Remove from favorites';
     button.setAttribute('aria-label', 'Remove from favorites');
-    status.classList.add('isfavorite');
-    status.innerHTML = 'Restaurant added to favorites.';
+    button.classList.add('isfavorite');
     notifyUser('Restaurant added to favorites', 'success');
   }
   DBHelper.updateCachedRestaurant(restaurant, data);
