@@ -48,7 +48,7 @@ renderStaticMap = (restaurant) => {
   const map = {
     lat: restaurant.latlng.lat,
     lng: restaurant.latlng.lng,
-    zoom: 16,
+    zoom: 12,
     scale: 2,
     type: 'roadmap',
     api: 'AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U',
