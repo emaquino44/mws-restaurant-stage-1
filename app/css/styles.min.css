@@ -821,16 +821,11 @@ nav h1 a {
     justify-content: center;
     flex-wrap: wrap;
 }
-.inside #social #social-status {
-    line-height: 2rem;
-    font-size: 1.4rem;
-    text-align: center;
-    flex-grow: 2;
-}
+
 .inside #restaurant-favorite {
     margin-left: 1rem;
-    border: none;
-    background: none;
+    /* border: none; */
+    /* background: none; */
     text-align: center;
     line-height: 3rem;
     padding: 0 1rem;
@@ -839,6 +834,8 @@ nav h1 a {
     cursor: pointer;
 }
 
+.inside .isfavorite:before,
+.inside #restaurant-favorite:focus,
 .inside #restaurant-favorite:hover {
     color: #f18200;
 }
