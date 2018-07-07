@@ -228,7 +228,7 @@ renderStaticMap = (markers) => {
     scale: 2,
     type: 'roadmap',
     format: 'jpg',
-    api: 'AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U'
+    api: 'Google API key here'
   }
   
   staticMap.setAttribute('tabindex', '0');

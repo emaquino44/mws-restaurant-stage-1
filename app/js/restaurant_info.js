@@ -51,7 +51,7 @@ renderStaticMap = (restaurant) => {
     zoom: 12,
     scale: 2,
     type: 'roadmap',
-    api: 'AIzaSyAtBLZYA9PuOhi-9XwPzQI-wsAfNDrOp4U',
+    api: 'Google API key here',
     format: 'jpg'
   }
   const marker = `&markers=size:mid%7Ccolor:0xff0000%7Clabel:${restaurant.name}%7C${restaurant.latlng.lat},+${restaurant.latlng.lng}`;
